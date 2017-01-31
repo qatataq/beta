@@ -4,6 +4,7 @@ import _ from 'lodash'
 import {
   loadTrack,
   nextTrack,
+  previousTrack,
   togglePlaying,
   updateVolume,
 } from '../../actions/playerActions'
@@ -57,7 +58,7 @@ class AudioImpl extends Component {
    * - "n", "arrow key right" nextTrack
    */
   resolveKeydown = (event) => {
-    const { nextTrack, togglePlaying, player, tracks, updateVolume } = this.props
+    const { nextTrack, togglePlaying, player, previousTrack, tracks, updateVolume } = this.props
     event.preventDefault()
     switch (event.keyCode) {
       case 32: // space
@@ -73,6 +74,10 @@ class AudioImpl extends Component {
       case 78: // n
       case 39: // right-arrow
         nextTrack(player.index, tracks.list)
+        break
+      case 80: // p
+      case 37: // left-arrow
+        previousTrack(player.index, tracks.list)
         break
       default:
     }
@@ -101,6 +106,7 @@ const stateToProps = () => ({})
 const dispatchToProps = (dispatch) => ({
   loadTrack: (index, list) => { dispatch(loadTrack(index, list)) },
   nextTrack: (index, list) => { dispatch(nextTrack(index, list)) },
+  previousTrack: (index, list) => { dispatch(previousTrack(index, list)) },
   togglePlaying: (playing) => { dispatch(togglePlaying(playing)) },
   updateVolume: (newVolume) => { dispatch(updateVolume(newVolume)) },
 })
