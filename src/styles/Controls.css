@@ -1,0 +1,39 @@
+.controls {
+    position: absolute;
+    bottom: 3rem;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.row > * {
+    float: left;
+}
+
+.controls-sound {
+    position: relative;
+    left: 50%;
+    margin-top: 2rem;
+    transform: translate(-50%, 0);
+}
+
+.icon-space {
+    margin-right: 3rem;
+}
+
+@media screen and (max-width: 1024px) {
+    .controls {
+        width: 100%;
+    }
+    .row {
+        display: flex;
+        justify-content: center;
+
+    }
+    .row > * {
+        float: none;
+    }
+
+    .controls-sound {
+        display: none;
+    }
+}
