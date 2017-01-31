@@ -36,10 +36,11 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 6.4rem;
-    height: 6.4rem;
+    width: 9rem;
+    height: 9rem;
     border-radius: 50%;
     z-index: -1;
+    background: #625fe2;
     box-shadow: 0 5px 26px 10px rgba(0, 0, 0, .1), 0 6px 46px 10px rgba(98, 94, 226, .1);
     transform: translate(-50%, -50%);
 }
@@ -53,7 +54,7 @@
     .suggestions {
         top: 35%;
         transform: translate(-5.625rem, 0);
-        height: 11.25rem;
+        height: 12rem;
     }
     .suggestions-one {
       margin-top: 0;
