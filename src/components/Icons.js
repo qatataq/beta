@@ -5,7 +5,7 @@ const PlayPause = ({ isPlaying, ...props }) => (
     <svg
       width="50"
       height="51"
-      viewBox="0 0 50 51"
+      viewBox="0 0 50 57"
       xmlns="http://www.w3.org/2000/svg"
     >
       {isPlaying ?
@@ -24,6 +24,7 @@ const PlayPause = ({ isPlaying, ...props }) => (
           strokeWidth="3"
           fill="none"
           fillRule="evenodd"
+          transform="translate(3,0)"
         />
       }
     </svg>
