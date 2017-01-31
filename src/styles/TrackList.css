@@ -10,11 +10,10 @@
 }
 
 .suggestions-one {
-    width: 11rem;
-    height: 11rem;
+    width: 8rem;
+    height: 8rem;
     margin-left: 1rem;
     margin-right: 1rem;
-    margin-top: 3rem;
     border-radius: 50%;
     opacity: .4;
     transform-origin: top left;
@@ -23,11 +22,13 @@
 }
 
 .suggestions-one.not-first {
-  animation: will-block .2s ease-in-out .2s forwards;
+  animation: will-block .3s ease-in-out forwards;
 }
 
 .suggestions-one.first {
-    animation: will-appear .2s ease-in-out .2s forwards;
+    width: 11rem;
+    height: 11rem;
+    animation: will-appear .3s ease-in-out forwards;
     margin-left: 2.5rem;
 }
 
@@ -46,6 +47,11 @@
 }
 
 .suggestions-one img {
+    width: 8rem;
+    border-radius: 50%;
+}
+
+.suggestions-one.first img {
     width: 11rem;
     border-radius: 50%;
 }
@@ -72,15 +78,22 @@
 
 @keyframes will-appear {
   from {
+    margin-top: 1.5rem;
     opacity: .4;
   }
   to {
     opacity: 1;
+    margin-top: 1.5rem;
   }
 }
 
 @keyframes will-block {
+  from {
+    margin-top: 1.5rem;
+    opacity: 1;
+  }
   to {
+    margin-top: 3rem;
     opacity: .4;
   }
 }

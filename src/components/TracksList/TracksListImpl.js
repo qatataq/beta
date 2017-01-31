@@ -16,8 +16,9 @@ class TracksListImpl extends Component {
     const { player, tracks } = this.props
     const { loadingIndex } = this.state
     const sortedList = _.concat(tracks.list.slice(player.index, tracks.list.length), tracks.list.slice(0, player.index))
+    const offsetList = _.concat(sortedList.slice(sortedList.length - 1, sortedList), sortedList.slice(0, sortedList.length - 1))
     return tracks.list.length ?
-      sortedList.map((d, i) => (
+      offsetList.map((d, i) => (
         <ImageLoader
           className={classnames('suggestions-one', {
             'first': i === 0,
@@ -36,8 +37,8 @@ class TracksListImpl extends Component {
     return (
         <FlipMove
           className="suggestions"
-          duration={200}
-          easing="cubic-bezier(0, 0.7, 0.8, 0.1)"
+          duration={300}
+          easing="ease-in-out"
           maintainContainerHeight
         >
           {this.getTracksList()}
