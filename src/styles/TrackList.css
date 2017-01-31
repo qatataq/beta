@@ -4,7 +4,7 @@
     left: 50%;
     display: flex;
     transform: translate(-8rem, 0);
-    width: 100%;
+    width: 200%;
     height: 16rem;
     overflow: hidden;
 }
@@ -61,6 +61,12 @@
     }
     .suggestions-one.first {
       margin-left: 0;
+    }
+}
+
+@media screen and (orientation: landscape) and (max-width: 736px) {
+    .suggestions {
+        top: 30%;
     }
 }
 

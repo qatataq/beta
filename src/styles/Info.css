@@ -46,3 +46,15 @@
         transform: translate(-50%, 0);
     }
 }
+
+@media screen and (orientation: landscape) and (max-width: 736px) {
+    .info {
+        top: 50%;
+        left: -5%;
+        transform: translate(-50%, -50%);
+    }
+
+    .info > * {
+        max-width: 200px;
+    }
+}
