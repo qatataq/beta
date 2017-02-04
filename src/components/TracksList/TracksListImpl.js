@@ -20,13 +20,13 @@ class TracksListImpl extends Component {
     return tracks.list.length ?
       offsetList.map((d, i) => (
         <ImageLoader
-          className={classnames('suggestions-one', {
+          className={classnames('TrackList-item', {
             'first': i === 0,
-            'not-first': i !== 0,
           })}
           key={d.id}
           onLoad={() => this.setState({ loadingIndex: loadingIndex + 1 })}
           src={loadingIndex >= i ? d.artwork_url.replace('large', 't500x500') : ''}
+          style={{ backgroundImage: loadingIndex >= i ? `url(${d.artwork_url.replace('large', 't500x500')})` : ''}}
           wrapper={React.DOM.div}
         />
       ))
@@ -36,7 +36,7 @@ class TracksListImpl extends Component {
   render() {
     return (
         <FlipMove
-          className="suggestions is-fadeIn"
+          className="TrackList is-fadeIn"
           duration={300}
           easing="ease-in-out"
           maintainContainerHeight

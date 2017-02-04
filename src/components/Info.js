@@ -20,12 +20,12 @@ class Info extends Component {
     return (
       <div className="is-fadeIn">
         {player.track ?
-          <div className="info">
-            <div className="track-title">
+          <div className="Info">
+            <div className="Info-title">
               <a href={this.getTrackLink()} target="_blank">{player.track.title}</a>
             </div>
-            <div className="track-artist">{player.track.user.username}</div>
-            <div className="track-label">{player.track.label_name}</div>
+            <div className="Info-artist">{player.track.user.username}</div>
+            <div className="Info-label">{player.track.label_name}</div>
           </div>
         :
           null

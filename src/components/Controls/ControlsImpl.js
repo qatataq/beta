@@ -65,16 +65,16 @@ class ControlsImpl extends Component {
       updateVolume,
     } = this.props
     return (
-      <div className="controls is-fadeIn">
+      <div className="Controls is-fadeIn">
       {player.track && (
         <div>
           <div className="row">
             <Previous
-              className="icon-space"
+              className="Controls-space"
               onClick={this.handleNextTrack('previous')}
             />
             <PlayPause
-              className="icon-space"
+              className="Controls-space"
               isPlaying={player.playing}
               onClick={this.handlePlayPause}
             />
@@ -82,7 +82,7 @@ class ControlsImpl extends Component {
           </div>
           <div className="row">
             <Sound
-              className={'controls-sound'}
+              className={'Controls-sound'}
               volume={player.volume}
               onChange={(event) => { updateVolume(event.target.value) }}
             />

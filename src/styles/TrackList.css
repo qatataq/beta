@@ -1,4 +1,4 @@
-.suggestions {
+.TrackList {
     position: absolute;
     top: 0;
     left: 50%;
@@ -8,7 +8,7 @@
     height: 16rem;
 }
 
-.suggestions-one {
+.TrackList-item {
     width: 8rem;
     height: 8rem;
     margin-left: 1rem;
@@ -18,20 +18,18 @@
     transform-origin: top left;
     will-change: transform;
     transform-origin: center;
+    animation: will-block .3s ease-in-out forwards;
+
 }
 
-.suggestions-one.not-first {
-  animation: will-block .3s ease-in-out forwards;
-}
-
-.suggestions-one.first {
+.TrackList-item.first {
     width: 11rem;
     height: 11rem;
     animation: will-appear .3s ease-in-out forwards;
     margin-left: 2.5rem;
 }
 
-.suggestions-one.first::before {
+.TrackList-item.first::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -45,32 +43,32 @@
     transform: translate(-50%, -50%);
 }
 
-.suggestions-one img {
+.TrackList-item img {
     width: 8rem;
     border-radius: 50%;
 }
 
-.suggestions-one.first img {
+.TrackList-item.first img {
     width: 11rem;
     border-radius: 50%;
 }
 
 @media screen and (max-width: 1024px) {
-    .suggestions {
+    .TrackList {
         top: 35%;
         transform: translate(-5.625rem, 0);
         height: 12rem;
     }
-    .suggestions-one {
+    .TrackList-item {
       margin-top: 0;
     }
-    .suggestions-one.first {
+    .TrackList-item.first {
       margin-left: 0;
     }
 }
 
 @media screen and (orientation: landscape) and (max-width: 736px) {
-    .suggestions {
+    .TrackList {
         top: 30%;
     }
 }
