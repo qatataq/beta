@@ -5,9 +5,14 @@ import TracksListImpl from './TracksListImpl'
 
 class TracksList extends Component {
   render() {
-    return (
+    const { player, tracks } = this.props
+    const render =
+    player && tracks ?
       <TracksListImpl {...this.props} />
-    )
+    :
+      null
+      
+    return render
   }
 }
 

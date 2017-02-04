@@ -49,7 +49,7 @@ const Next = ({ ...props }) => (
         strokeWidth="3"
         fill="none"
         fillRule="evenodd"
-        transform="translate(0 12)"
+        transform="translate(0 10)"
       />
     </svg>
   </div>
@@ -69,7 +69,7 @@ const Previous = ({ ...props }) => (
       strokeWidth="3"
       fill="none"
       fillRule="evenodd"
-      transform="translate(0 12)"
+      transform="translate(0 10)"
     />
     </svg>
   </div>

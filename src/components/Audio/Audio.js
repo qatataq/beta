@@ -5,9 +5,14 @@ import AudioImpl from './AudioImpl'
 
 class Audio extends Component {
   render() {
-    return (
+    const { player, tracks } = this.props
+    const render =
+    player && tracks ?
       <AudioImpl {...this.props} />
-    )
+    :
+      null
+
+    return render
   }
 }
 

@@ -36,7 +36,7 @@ class TracksListImpl extends Component {
   render() {
     return (
         <FlipMove
-          className="suggestions"
+          className="suggestions is-fadeIn"
           duration={300}
           easing="ease-in-out"
           maintainContainerHeight

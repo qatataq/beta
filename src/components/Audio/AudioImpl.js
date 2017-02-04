@@ -86,7 +86,7 @@ class AudioImpl extends Component {
   render() {
     const { nextTrack, player, tracks } = this.props
     return (
-      <div>
+      <div className="is-fadeIn">
         {player.track && (
           <audio
             ref={audio => this.audio = audio}

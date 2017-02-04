@@ -14,7 +14,7 @@
     margin-left: 1rem;
     margin-right: 1rem;
     border-radius: 50%;
-    opacity: .4;
+    opacity: .8;
     transform-origin: top left;
     will-change: transform;
     transform-origin: center;
@@ -78,7 +78,7 @@
 @keyframes will-appear {
   from {
     margin-top: 1.5rem;
-    opacity: .4;
+    opacity: .8;
   }
   to {
     opacity: 1;
@@ -93,6 +93,6 @@
   }
   to {
     margin-top: 3rem;
-    opacity: .4;
+    opacity: .8;
   }
 }

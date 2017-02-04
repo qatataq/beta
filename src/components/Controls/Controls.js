@@ -5,9 +5,14 @@ import ControlsImpl from './ControlsImpl'
 
 class Controls extends Component {
   render() {
-    return (
+    const { player, tracks } = this.props
+    const render =
+    player && tracks ?
       <ControlsImpl {...this.props} />
-    )
+    :
+      null
+
+    return render
   }
 }
 

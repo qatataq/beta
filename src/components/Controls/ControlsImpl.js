@@ -65,7 +65,7 @@ class ControlsImpl extends Component {
       updateVolume,
     } = this.props
     return (
-      <div className="controls">
+      <div className="controls is-fadeIn">
       {player.track && (
         <div>
           <div className="row">

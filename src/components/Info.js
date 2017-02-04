@@ -18,7 +18,7 @@ class Info extends Component {
   render() {
     const { player } = this.props
     return (
-      <div>
+      <div className="is-fadeIn">
         {player.track ?
           <div className="info">
             <div className="track-title">
