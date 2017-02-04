@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import Velocity from 'velocity-animate'
 import _ from 'lodash'
 import {
   loadTrack,
@@ -8,18 +9,26 @@ import {
   togglePlaying,
   updateVolume,
 } from '../../actions/playerActions'
+import {
+  PlayPause,
+  Next,
+  Previous,
+  Sound,
+} from '../Icons'
+import '../../styles/Controls.css'
 
 class AudioImpl extends Component {
 
   audio = null
+  isStartingMobile = navigator.userAgent
+    .toLowerCase()
+    .includes('mobi')
 
   componentDidMount() {
     const { togglePlaying } = this.props
     // If on mobile device manually set the audio as paused
-    const isMobile = navigator.userAgent
-      .toLowerCase()
-      .includes('mobi')
-    if (isMobile) {
+
+    if (this.isStartingMobile) {
       togglePlaying(true)
     } else {
       window.addEventListener('keydown', _.debounce(this.resolveKeydown, 300))
@@ -38,6 +47,9 @@ class AudioImpl extends Component {
 
   componentDidUpdate(prevProps) {
     const { player } = this.props
+    if (this.isStartingMobile) {
+      return
+    }
     if (prevProps.player.index !== player.index && this.audio) {
       this.audio.pause()
       this.audio.load()
@@ -50,6 +62,56 @@ class AudioImpl extends Component {
       this.audio.volume = player.volume / 100
     }
   }
+
+  handlePlayPause = (event) => {
+    const { player, togglePlaying } = this.props
+    const element = event.currentTarget
+    const animAttr = { scaleX: '0.3', scaleY: '0.3', opacity: '0' }
+    const animParams = { duration:200, easing: [.13,1.67,.72,2] }
+    const onComplete = {
+      complete: () => {
+        togglePlaying(player.playing)
+        Velocity(element, 'reverse', animParams)
+          .then(() => {
+            Velocity(element, 'stop', true)
+          })
+      },
+    }
+    if (this.isStartingMobile) {
+      this.audio.play()
+      this.isStartingMobile = false
+    }
+    Velocity(element, animAttr, _.extend(animParams, onComplete))
+  }
+
+  handleNextTrack = (direction) => (event) => {
+    const {
+      nextTrack,
+      player,
+      previousTrack,
+      togglePlaying,
+      tracks,
+    } = this.props
+    const element = event.currentTarget
+    const animAttr = direction === 'next' ? { translateX: '8px' } : { translateX: '-8px' }
+    const animParams = { duration:200, easing: [.13,1.67,.72,2] }
+
+    Velocity(element, animAttr, animParams)
+    Velocity(element, 'reverse', animParams)
+        .then(() => {
+          Velocity(element, 'stop', true)
+          if (!player.playing) {
+            togglePlaying(player.playing)
+          }
+          if (direction === 'next') {
+            nextTrack(player.index, tracks.list)
+          } else {
+            previousTrack(player.index, tracks.list)
+          }
+        })
+  }
+
+
 
   /**
    * Do actions when shortcuts are pressed :
@@ -84,9 +146,34 @@ class AudioImpl extends Component {
   }
 
   render() {
-    const { nextTrack, player, tracks } = this.props
+    const { nextTrack, player, tracks, updateVolume } = this.props
     return (
       <div className="is-fadeIn">
+        <div className="Controls">
+        {player.track && (
+          <div>
+            <div className="row">
+              <Previous
+                className="Controls-space"
+                onClick={this.handleNextTrack('previous')}
+              />
+              <PlayPause
+                className="Controls-space"
+                isPlaying={player.playing}
+                onClick={this.handlePlayPause}
+              />
+              <Next onClick={this.handleNextTrack('next')}/>
+            </div>
+            <div className="row">
+              <Sound
+                className={'Controls-sound'}
+                volume={player.volume}
+                onChange={(event) => { updateVolume(event.target.value) }}
+              />
+            </div>
+          </div>
+        )}
+        </div>
         {player.track && (
           <audio
             ref={audio => this.audio = audio}
