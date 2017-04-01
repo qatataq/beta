@@ -27,9 +27,13 @@ export const fetchTracks = () => {
       .then(response => response.json())
       .then(({ tracks }) => {
         const newTracks = tracks.map(track => {
-          return _.extend({}, track, { stream_url: `${track.stream_url.split('?secret_token')[0]}?client_id=${SC_CLIENT_ID}` })
+          if (track.artwork_url) {
+            return _.extend({}, track, { stream_url: `${track.stream_url.split('?secret_token')[0]}?client_id=${SC_CLIENT_ID}` })
+          } else {
+            return null
+          }
         })
-        dispatch(receiveTracks(_.shuffle(newTracks)))
+        dispatch(receiveTracks(_.chain(newTracks).compact().shuffle().value()))
       })
       .catch(error => {
         dispatch(receiveErrorTracks(error))
