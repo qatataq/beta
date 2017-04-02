@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
 
 import '../styles/Info.css'
 
@@ -19,7 +18,7 @@ class Info extends Component {
     const { player } = this.props
     return (
       <div className="is-fadeIn">
-        {player.track ?
+        {player.track &&
           <div className="Info">
             <div className="Info-title">
               <a href={this.getTrackLink()} target="_blank">{player.track.title}</a>
@@ -27,18 +26,10 @@ class Info extends Component {
             <div className="Info-artist">{player.track.user.username}</div>
             <div className="Info-label">{player.track.label_name}</div>
           </div>
-        :
-          null
         }
       </div>
     )
   }
 }
 
-const stateToProps = (state) => ({
-  player: state.player,
-})
-
-const dispatchToProps = () => ({})
-
-export default connect(stateToProps, dispatchToProps)(Info);
+export default Info

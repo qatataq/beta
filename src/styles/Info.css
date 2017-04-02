@@ -13,6 +13,7 @@
 }
 
 .Info-title {
+    display: -webkit-box;
     font-size: 2rem;
     color: #5b595b;
     max-height: 5.3rem;

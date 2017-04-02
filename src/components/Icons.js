@@ -128,9 +128,6 @@ const Sound = ({ onChange, reference, volume, ...props }) => (
   </div>
 )
 
-Sound.propTypes = {
-}
-
 export {
   PlayPause,
   Sound,

@@ -31,9 +31,9 @@ class States extends Component {
     const { tracks } = this.props
     return (
       <ReactCSSTransitionGroup
-      transitionName="fade"
-      transitionEnterTimeout={0}
-      transitionLeaveTimeout={500}
+        transitionName="fade"
+        transitionEnterTimeout={0}
+        transitionLeaveTimeout={500}
       >
         {tracks.loading && (<Loader />)}
         {tracks.error && (<Error />)}
@@ -48,4 +48,4 @@ const stateToProps = (state) => ({
 
 const dispatchToProps = () => ({})
 
-export default connect(stateToProps, dispatchToProps)(States);
+export default connect(stateToProps, dispatchToProps)(States)

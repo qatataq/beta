@@ -29,7 +29,7 @@ class App extends Component {
 const stateToProps = () => ({})
 
 const dispatchToProps = (dispatch) => ({
-  fetchTracks: () => { dispatch(fetchTracks()) },
+  fetchTracks: () => dispatch(fetchTracks()),
 })
 
-export default connect(stateToProps, dispatchToProps)(App);
+export default connect(stateToProps, dispatchToProps)(App)
