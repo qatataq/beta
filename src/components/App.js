@@ -4,15 +4,16 @@ import { connect } from 'react-redux'
 import Content from './Content'
 import States from './States'
 import Footer from './Footer'
-import { fetchTracks } from '../actions/tracksActions'
+import { fetchCurrentTrack } from '../actions/tracksActions'
 import '../styles/App.css'
 
 class App extends Component {
   /**
    * When the component will mount, fetch the tracks of the playlist
    */
-  componentWillMount() {
-    this.props.fetchTracks()
+  constructor(props) {    
+    super(props);
+    props.fetchCurrentTrack()
   }
 
   render() {
@@ -29,7 +30,7 @@ class App extends Component {
 const stateToProps = () => ({})
 
 const dispatchToProps = (dispatch) => ({
-  fetchTracks: () => dispatch(fetchTracks()),
+  fetchCurrentTrack: () => dispatch(fetchCurrentTrack()),
 })
 
 export default connect(stateToProps, dispatchToProps)(App)

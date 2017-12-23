@@ -35,7 +35,6 @@ class States extends Component {
         transitionEnterTimeout={0}
         transitionLeaveTimeout={500}
       >
-        {tracks.loading && (<Loader />)}
         {tracks.error && (<Error />)}
       </ReactCSSTransitionGroup>
     )

@@ -1,3 +1,97 @@
+import _ from 'lodash'
+
+const tracks = [{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+},{
+  "artist": "Brasstracks",
+  "title": "Those Who Know",
+  "album": null,
+  "cover": "https://d1taocs3kfk7z6.cloudfront.net/track/cover/c7e2c0bc-e78b-4955-9064-e597aa4e41bb",
+  "buy_link": null,
+  "started_at": "2017-12-23T13:36:23+0000",
+  "end_at": "2017-12-23T13:39:42+0000",
+  "duration": 198.502
+}]
+
 const DEFAULT_STATE = {
   list: [],
   loading: false,
@@ -9,20 +103,17 @@ const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
   case 'REQUEST_TRACKS':
     return {
       ...state,
-      ...DEFAULT_STATE,
       loading: true,
     }
   case 'TRACKS_ERROR':
     return {
       ...state,
-      ...DEFAULT_STATE,
       error: action.payload,
     }
-  case 'RECEIVE_TRACKS':
+  case 'RECEIVE_CURRENT_TRACK':
     return {
       ...state,
-      ...DEFAULT_STATE,
-      list: action.payload,
+      list: _.get(_.head(state.list), 'end_at') !== action.payload.end_at ? [action.payload, ...state.list] : state.list,
     }
   default:
     return { ...state }

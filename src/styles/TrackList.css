@@ -19,17 +19,16 @@
     will-change: transform;
     transform-origin: center;
     animation: will-block .3s ease-in-out forwards;
-
 }
 
-.TrackList-item.first {
+.TrackList-item.last {
     width: 11rem;
     height: 11rem;
     animation: will-appear .3s ease-in-out forwards;
     margin-left: 2.5rem;
 }
 
-.TrackList-item.first::before {
+.TrackList-item.last::before {
     content: '';
     position: absolute;
     top: 50%;
@@ -48,7 +47,7 @@
     border-radius: 50%;
 }
 
-.TrackList-item.first img {
+.TrackList-item.last img {
     width: 11rem;
     border-radius: 50%;
 }
@@ -62,7 +61,7 @@
     .TrackList-item {
       margin-top: 0;
     }
-    .TrackList-item.first {
+    .TrackList-item.last {
       margin-left: 0;
     }
 }
