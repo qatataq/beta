@@ -1,11 +1,23 @@
+.Tracklist-container {
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
 .TrackList {
-    position: absolute;
-    top: 0;
-    left: 50%;
+    flex-direction: row-reverse;
     display: flex;
-    transform: translate(-8rem, 0);
-    width: 200%;
-    height: 16rem;
+    flex-wrap: nowrap;
+    width: 50%;
+    height: 100%;
+    align-items: center;
+}
+
+.Tracklist-infos {
+    width: 38%;
+    height: 100%;
+    margin-left: 100px;
 }
 
 .TrackList-item {
@@ -74,22 +86,18 @@
 
 @keyframes will-appear {
   from {
-    margin-top: 1.5rem;
     opacity: .8;
   }
   to {
     opacity: 1;
-    margin-top: 1.5rem;
   }
 }
 
 @keyframes will-block {
   from {
-    margin-top: 1.5rem;
     opacity: 1;
   }
   to {
-    margin-top: 3rem;
     opacity: .8;
   }
 }

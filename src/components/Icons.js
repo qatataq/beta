@@ -35,46 +35,6 @@ PlayPause.propTypes = {
   isPlaying: PropTypes.bool.isRequired,
 }
 
-const Next = ({ ...props }) => (
-  <div {...props}>
-    <svg
-      width="36"
-      height="51"
-      viewBox="0 0 36 51"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M10.39 22.013l-7.025 3.573C2.61 25.97 2 25.59 2 24.726V3.007c0-.857.616-1.24 1.365-.86L10.39 5.72V3.006c0-.857.617-1.24 1.366-.86l21.68 11.027c.754.383.75 1.007 0 1.388l-21.68 11.026c-.754.383-1.365.004-1.365-.86v-2.713z"
-        stroke="#918FEA"
-        strokeWidth="3"
-        fill="none"
-        fillRule="evenodd"
-        transform="translate(0 10)"
-      />
-    </svg>
-  </div>
-)
-
-const Previous = ({ ...props }) => (
-  <div {...props}>
-    <svg
-      width="36"
-      height="51"
-      viewBox="0 0 36 51"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-    <path
-      d="M25.61 22.013l7.025 3.573c.754.383 1.365.004 1.365-.86V3.007c0-.857-.616-1.24-1.365-.86L25.61 5.72V3.006c0-.857-.617-1.24-1.366-.86L2.564 13.174c-.754.383-.75 1.007 0 1.388l21.68 11.026c.754.383 1.365.004 1.365-.86v-2.713z"
-      stroke="#918FEA"
-      strokeWidth="3"
-      fill="none"
-      fillRule="evenodd"
-      transform="translate(0 10)"
-    />
-    </svg>
-  </div>
-)
-
 const Sound = ({ onChange, reference, volume, ...props }) => (
   <div {...props}
     ref={reference}
@@ -87,7 +47,7 @@ const Sound = ({ onChange, reference, volume, ...props }) => (
       step="2"
       style={{
         position: 'absolute',
-        top: '8px',
+        top: '81px',
         left: '47px',
         opacity: 0,
         width: '92px'
@@ -130,7 +90,5 @@ const Sound = ({ onChange, reference, volume, ...props }) => (
 
 export {
   PlayPause,
-  Sound,
-  Next,
-  Previous,
+  Sound
 }

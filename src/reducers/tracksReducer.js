@@ -93,7 +93,7 @@ const tracks = [{
 }]
 
 const DEFAULT_STATE = {
-  list: [],
+  list: tracks,
   loading: false,
   error: null,
 }

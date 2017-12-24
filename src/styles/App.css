@@ -11,13 +11,20 @@
     overflow: hidden;
 }
 
+.app {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  min-height: 100vh;
+}
+
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    margin-bottom: 2rem;
-    text-align: center;
-    color: #625fe2;
+  flex: 1 100%;
+  width: 100%;    
+  height: 80px;
+  text-align: center;
+  color: #625fe2;
 }
 
 .soundcloud-logo {
@@ -31,6 +38,7 @@ footer {
 
 .loader,
 .error {
+    display: none;
     z-index: 2;
     will-change: opacity;
 }
@@ -95,7 +103,17 @@ footer {
   transition: opacity 500ms ease-in-out;
 }
 
-.app::after {
+.is-fadeIn {
+    opacity: 0;
+    animation: fadein .7s ease-in 1s forwards;
+}
+
+.header {
+  width: 100%;
+  height: 80px;
+}
+
+.logo-header {
     content: '';
     position: absolute;
     top: 2rem;
@@ -115,11 +133,6 @@ footer {
     height: 29rem;
     background: url('../images/aaa.svg') bottom right no-repeat;
     background-size: contain;
-}
-
-.is-fadeIn {
-    opacity: 0;
-    animation: fadein .7s ease-in 1s forwards;
 }
 
 @media screen and (max-width: 1024px) {

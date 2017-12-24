@@ -99,32 +99,23 @@ class Audio extends Component {
   render() {
     const { player, updateVolume } = this.props
     return (
-      <div className="is-fadeIn">
-        <div className="Controls">
-          <div>
-            <div className="row">
-              <PlayPause
-                className="Controls-space"
-                isPlaying={player.playing}
-                onClick={this.handlePlayPause}
-              />
-            </div>
-            <div className="row">
-              <Sound
-                className={'Controls-sound'}
-                volume={player.volume}
-                onChange={(event) => { updateVolume(event.target.value) }}
-              />
-            </div>
-          </div>
-        </div>
+      <div className="Controls is-fadeIn">
+        <PlayPause
+          className="controls-play"
+          isPlaying={player.playing}
+          onClick={this.handlePlayPause}
+        />
+        <Sound
+          className={'controls-sound'}
+          volume={player.volume}
+          onChange={(event) => { updateVolume(event.target.value) }}
+        />
         <audio
           ref={audio => this.audio = audio}
           autoPlay
         >
           <source src="http://195.154.185.139/radio/117904/stream/157294"/>
         </audio>
-        
       </div>
     )
   }

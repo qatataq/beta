@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Audio from './Audio/Audio'
-import Info from './Info'
 import TracksList from './TracksList/TracksList'
 
 import '../styles/Content.css'
@@ -12,9 +11,8 @@ class Content extends Component {
     const { player, tracks } = this.props
     const render = player && tracks &&
       <div className='content'>
-        <Audio {...this.props} />
-        <Info {...this.props} />
         <TracksList {...this.props} />
+        <Audio {...this.props} />
       </div>
 
     return render

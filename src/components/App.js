@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
 import Content from './Content'
+import Header from './Header'
 import States from './States'
 import Footer from './Footer'
 import { fetchCurrentTrack } from '../actions/tracksActions'
@@ -20,6 +21,7 @@ class App extends Component {
     return (
       <div className="app">
         <States />
+        <Header />
         <Content />
         <Footer />
       </div>

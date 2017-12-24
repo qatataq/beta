@@ -4,6 +4,7 @@ import _ from 'lodash'
 import moment from 'moment'
 import classnames from 'classnames'
 import FlipMove from 'react-flip-move';
+import Info from './../Info'
 import { fetchCurrentTrack } from '../../actions/tracksActions'
 
 import noCover from '../../images/notrack.jpg'
@@ -45,7 +46,7 @@ class TracksList extends Component {
      return tracks.list.map((d, i) => (
       <img
         className={classnames('TrackList-item', {
-          'last': i === tracks.list.length - 1,
+          'last': i === 0,
         })}
         key={i}
         src={d.cover ? d.cover : noCover}
@@ -57,14 +58,19 @@ class TracksList extends Component {
 
   render() {
     return (
-      <FlipMove
-        className="TrackList is-fadeIn"
-        duration={300}
-        easing="ease-in-out"
-        maintainContainerHeight
-      >
-        {this.getTracklist()}
-      </FlipMove>
+      <div className="Tracklist-container">
+        <FlipMove
+          className="TrackList is-fadeIn"
+          duration={300}
+          easing="ease-in-out"
+          maintainContainerHeight
+        >
+          {this.getTracklist()}
+        </FlipMove>
+        <div className="Tracklist-infos">
+          <Info {...this.props} />
+        </div>
+      </div>
     )
   }
 }

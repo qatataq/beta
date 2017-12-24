@@ -1,23 +1,14 @@
-.Controls {
+.Controls {    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: absolute;
     bottom: 3rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    height: 20%;
 }
 
-.row > * {
-    float: left;
-}
-
-.Controls-sound {
-    position: relative;
-    left: 50%;
-    margin-top: 2rem;
-    transform: translate(-50%, 0);
-}
-
-.Controls-space {
-    margin-right: 3rem;
+.controls-play {
+    margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1024px) {
