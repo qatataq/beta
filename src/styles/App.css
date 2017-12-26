@@ -140,6 +140,14 @@ footer {
         transform: translate(-50%, 0);
         opacity: .8;
     }
+    .logo-header {
+      padding-top: 2rem;
+      display: block;
+      margin: 0 auto;
+      position: relative;
+      top: 0;
+      left: 0;
+    }
     footer {
         display: none;
     }
