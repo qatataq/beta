@@ -114,7 +114,6 @@ footer {
 }
 
 .logo-header {
-    content: '';
     position: absolute;
     top: 2rem;
     left: 3rem;

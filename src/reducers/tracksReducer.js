@@ -99,7 +99,9 @@ const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
   case 'RECEIVE_CURRENT_TRACK':
     return {
       ...state,
-      list: _.get(_.head(state.list), 'started_at') !== action.payload.started_at ? [action.payload, ...state.list] : state.list,
+      list: _.get(_.head(state.list), 'started_at') !== action.payload.started_at && action.payload.album !== 'qatataq'
+      ? [action.payload, ...state.list] 
+      : state.list,
     }
   case 'RECEIVE_HISTORY':
     return {

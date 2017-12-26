@@ -43,10 +43,10 @@ export const fetchCurrentTrack = () =>
 export const fetchHistory = () =>
   dispatch => {
     dispatch(requestHistory('requestingHistory'))
-    return fetch(`https://www.radioking.com/widgets/api/v1/radio/117904/track/history`)
+    return fetch(`https://www.radioking.com/widgets/api/v1/radio/117904/track/history?limit=20`)
       .then(response => response.json())
       .then((history) => {
-        dispatch(receiveHistory(history.filter(track => track.artist !== 'qatataq' && track.title !== 'jingle aaa')))
+        dispatch(receiveHistory(history.filter(track => track.album !== 'qatataq')))
       })
       .catch(error => {        
         console.log(error);
