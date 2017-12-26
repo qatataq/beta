@@ -6,8 +6,8 @@ import '../styles/Info.css'
 class Info extends Component {
 
   render() {
-    const { tracks } = this.props
-    const currentTrack = _.head(tracks.list);
+    const { tracks, trackFocused } = this.props
+    const currentTrack = trackFocused ? trackFocused : _.head(tracks.list);
 
     return (
       <div className="is-fadeIn">

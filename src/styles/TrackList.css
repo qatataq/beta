@@ -35,6 +35,7 @@
     will-change: transform;
     transform-origin: center;
     animation: will-block .3s ease-in-out forwards;
+    transition: all .2s ease-in-out;
 }
 
 .TrackList-item.last {
@@ -42,6 +43,11 @@
     height: 11rem;
     animation: will-appear .3s ease-in-out forwards;
     margin: 0 24px;
+}
+
+.TrackList-item:hover:not(.last) {
+    transform: scale(1.3);
+    opacity: 1;
 }
 
 .TrackList-item.last::before {
@@ -85,6 +91,7 @@
 @keyframes will-appear {
   from {
     opacity: .8;
+    max-height: 0px;
   }
   to {
     opacity: 1;

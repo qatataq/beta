@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => (
   <header className="header">
-    <img className="logo-header"/>
+    <div className="logo-header"/>
   </header>
 )
 

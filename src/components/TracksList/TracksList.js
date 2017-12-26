@@ -11,8 +11,14 @@ import noCover from '../../images/notrack.jpg'
 
 import '../../styles/TrackList.css'
  
-class TracksList extends Component {
+class TracksList extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      trackFocused: {}
+    }
+  }
   componentDidMount() {
   this.updateDisplay();
    var intervalId = setInterval(this.updateDisplay.bind(this), 5000);
@@ -36,8 +42,19 @@ class TracksList extends Component {
 
     const dateEnd = new moment(tracks.list[0].end_at);
     const now = new moment();
-    console.log("INFOS", dateEnd.format(), now.format(), dateEnd.diff(now));
     fetchCurrentTrack();
+  }
+
+  onMouseOver(track) {
+    this.setState({
+      trackFocused: track
+    });
+  }
+
+  onMouseOut() {
+    this.setState({
+      trackFocused: null
+    });
   }
 
   getTracklist() { 
@@ -51,6 +68,8 @@ class TracksList extends Component {
         key={i}
         src={d.cover ? d.cover : noCover}
         role="track"
+        onMouseOut={() => this.onMouseOut(d)} 
+        onMouseOver={() => this.onMouseOver(d)}
       />))
     }
     return null;
@@ -68,7 +87,10 @@ class TracksList extends Component {
           {this.getTracklist()}
         </FlipMove>
         <div className="Tracklist-infos">
-          <Info {...this.props} />
+          <Info 
+            {...this.props}
+            trackFocused={this.state.trackFocused}
+          />
         </div>
       </div>
     )
