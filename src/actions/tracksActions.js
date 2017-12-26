@@ -6,6 +6,11 @@ const requestTracks = payload => ({
   payload,
 })
 
+const requestHistory = payload => ({
+  type: 'REQUEST_HISTORY',
+  payload,
+})
+
 const receiveErrorTracks = payload => ({
   type: 'TRACKS_ERROR',
   payload,
@@ -16,14 +21,32 @@ const receiveCurrentTrack = payload => ({
   payload,
 })
 
+const receiveHistory = payload => ({
+  type: 'RECEIVE_HISTORY',
+  payload,
+})
+
 export const fetchCurrentTrack = () =>
   dispatch => {
-    dispatch(requestTracks('requesting'))
+    dispatch(requestTracks('requestingCurrentTrack'))
     return fetch(`https://www.radioking.com/widgets/currenttrack.php?radio=117904&format=json`)
       .then(response => response.json())
       .then((newTrack) => {
-        console.log(newTrack);
         dispatch(receiveCurrentTrack(newTrack))
+      })
+      .catch(error => {        
+        console.log(error);
+        dispatch(receiveErrorTracks(error))
+      })
+  }
+
+export const fetchHistory = () =>
+  dispatch => {
+    dispatch(requestHistory('requestingHistory'))
+    return fetch(`https://www.radioking.com/widgets/api/v1/radio/117904/track/history`)
+      .then(response => response.json())
+      .then((history) => {
+        dispatch(receiveHistory(history.filter(track => track.artist !== 'qatataq' && track.title !== 'jingle aaa')))
       })
       .catch(error => {        
         console.log(error);

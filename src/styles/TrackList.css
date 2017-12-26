@@ -1,6 +1,9 @@
 .Tracklist-container {
+    width: 100%;
+    height: 60%;
     display: inline-flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: flex-start;
     flex-wrap: nowrap;
     align-items: center;
 }
@@ -10,14 +13,15 @@
     display: flex;
     flex-wrap: nowrap;
     width: 50%;
+    margin-left: 100px;
     height: 100%;
     align-items: center;
+    justify-content: flex-start;
 }
 
 .Tracklist-infos {
-    width: 38%;
-    height: 100%;
-    margin-left: 100px;
+    box-sizing: border-box;
+    padding: 0 100px;
 }
 
 .TrackList-item {
@@ -37,7 +41,7 @@
     width: 11rem;
     height: 11rem;
     animation: will-appear .3s ease-in-out forwards;
-    margin-left: 2.5rem;
+    margin: 0 24px;
 }
 
 .TrackList-item.last::before {
@@ -65,22 +69,16 @@
 }
 
 @media screen and (max-width: 1024px) {
+    .Tracklist-container {
+        flex-direction: column-reverse;
+        align-items: flex-start;
+    }
+    .Tracklist-infos {      
+        margin: 0 auto;
+        padding-top: 100px;
+    }
     .TrackList {
-        top: 35%;
-        transform: translate(-5.625rem, 0);
-        height: 12rem;
-    }
-    .TrackList-item {
-      margin-top: 0;
-    }
-    .TrackList-item.last {
-      margin-left: 0;
-    }
-}
-
-@media screen and (orientation: landscape) and (max-width: 736px) {
-    .TrackList {
-        top: 30%;
+        width: 50%;
     }
 }
 

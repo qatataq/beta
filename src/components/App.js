@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import Content from './Content'
 import Header from './Header'
 import States from './States'
-import Footer from './Footer'
-import { fetchCurrentTrack } from '../actions/tracksActions'
+import { fetchHistory, fetchCurrentTrack } from '../actions/tracksActions'
 import '../styles/App.css'
 
 class App extends Component {
@@ -14,6 +13,7 @@ class App extends Component {
    */
   constructor(props) {    
     super(props);
+    props.fetchHistory()
     props.fetchCurrentTrack()
   }
 
@@ -23,7 +23,6 @@ class App extends Component {
         <States />
         <Header />
         <Content />
-        <Footer />
       </div>
     )
   }
@@ -32,7 +31,8 @@ class App extends Component {
 const stateToProps = () => ({})
 
 const dispatchToProps = (dispatch) => ({
-  fetchCurrentTrack: () => dispatch(fetchCurrentTrack()),
+  fetchHistory: () => dispatch(fetchHistory()),
+  fetchCurrentTrack: () => dispatch(fetchCurrentTrack())
 })
 
 export default connect(stateToProps, dispatchToProps)(App)

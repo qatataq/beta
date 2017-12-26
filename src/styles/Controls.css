@@ -4,7 +4,6 @@
     align-items: center;
     position: absolute;
     bottom: 3rem;
-    height: 20%;
 }
 
 .controls-play {
@@ -12,25 +11,7 @@
 }
 
 @media screen and (max-width: 1024px) {
-    .Controls {
-        width: 100%;
-    }
-    .row {
-        display: flex;
-        justify-content: center;
-
-    }
-    .row > * {
-        float: none;
-    }
-
-    .Controls-sound {
-        display: none;
-    }
-}
-
-@media screen and (orientation: landscape) and (max-width: 736px) {
-    .Controls {
+    .controls-sound {
         display: none;
     }
 }
