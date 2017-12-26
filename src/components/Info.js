@@ -15,7 +15,6 @@ class Info extends Component {
           <div className="Info">
             <div className="Info-title">{currentTrack.title}</div>
             <div className="Info-artist">{currentTrack.artist}</div>
-            <div className="Info-label">{currentTrack.album}</div>
           </div>
         }
       </div>
