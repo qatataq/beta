@@ -80,6 +80,16 @@ const DEFAULT_STATE = {
   error: null,
 }
 
+const mergeArrays = (list, payload) => {
+  if (_.head(list) && _.head(list).duration === null && _.head(list).started_at === payload.started_at) {
+    list[0] = payload;
+    return(list);
+  }
+  return _.get(_.head(list), 'started_at') !== payload.started_at && payload.album !== 'qatataq'
+      ? [payload, ...list] 
+      : list;
+}
+
 const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
   switch (action.type) {
   case 'REQUEST_TRACKS':
@@ -99,9 +109,7 @@ const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
   case 'RECEIVE_CURRENT_TRACK':
     return {
       ...state,
-      list: _.get(_.head(state.list), 'started_at') !== action.payload.started_at && action.payload.album !== 'qatataq'
-      ? [action.payload, ...state.list] 
-      : state.list,
+      list: mergeArrays(state.list, action.payload)
     }
   case 'RECEIVE_HISTORY':
     return {

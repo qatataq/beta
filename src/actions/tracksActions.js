@@ -26,6 +26,7 @@ const receiveHistory = payload => ({
   payload,
 })
 
+
 export const fetchCurrentTrack = () =>
   dispatch => {
     dispatch(requestTracks('requestingCurrentTrack'))

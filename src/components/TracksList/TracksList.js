@@ -11,38 +11,35 @@ import noCover from '../../images/notrack.jpg'
 
 import '../../styles/TrackList.css'
  
-class TracksList extends React.Component {
+class TracksList extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      trackFocused: {}
+      trackFocused: null,
     }
   }
-  componentDidMount() {
-  this.updateDisplay();
-   var intervalId = setInterval(this.updateDisplay.bind(this), 5000);
-   // store intervalId in the state so it can be accessed later:
-   this.setState({intervalId: intervalId});
+
+  getCurrentTrack() {
+    const { tracks } = this.props
+    return _.head(tracks.list);
   }
 
+  audioTimeout = null
 
-  componentwillMount() {
-  this.updateDisplay();
-   var intervalId = setInterval(this.updateDisplay.bind(this), 5000);
-   // store intervalId in the state so it can be accessed later:
-   this.setState({intervalId: intervalId});
-  }
-
-  updateDisplay() {
-    const { tracks, fetchCurrentTrack } = this.props;
-    if (!_.head(tracks.list)) {
-      return;
+  componentWillReceiveProps(nextProps) {
+    const { tracks, fetchCurrentTrack } = nextProps;
+    const tracksReady = tracks.list.length !== 0 && this.getCurrentTrack() && this.getCurrentTrack().duration;
+    if (tracksReady && (this.getCurrentTrack().end_at !== _.head(tracks.list).end_at || !this.audioTimeout)) {
+      const dateEnd = new moment(_.head(tracks.list).end_at);
+      const now = new moment();
+      console.log("setTimeout", dateEnd.diff(now) + 30000);
+      this.audioTimeout = setTimeout(() => fetchCurrentTrack(), dateEnd.diff(now) + 36000)
     }
+  }
 
-    const dateEnd = new moment(tracks.list[0].end_at);
-    const now = new moment();
-    fetchCurrentTrack();
+  componentWillUnmount() {
+      clearTimeout(this.audioTimeout) // stop memory leaks
   }
 
   onMouseOver(track) {
@@ -98,7 +95,7 @@ class TracksList extends React.Component {
 }
 
 const stateToProps = ({tracks}) => ({
-  tracks: tracks
+  tracks: tracks,
 })
 
 const dispatchToProps = (dispatch) => ({

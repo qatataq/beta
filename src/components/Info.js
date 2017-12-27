@@ -8,7 +8,7 @@ class Info extends Component {
   render() {
     const { tracks, trackFocused } = this.props
     const currentTrack = trackFocused ? trackFocused : _.head(tracks.list);
-
+    
     return (
       <div className="is-fadeIn">
         {currentTrack &&
