@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import _ from 'lodash'
 import moment from 'moment'
 import classnames from 'classnames'
-import FlipMove from 'react-flip-move';
 import Info from './../Info'
 import { fetchCurrentTrack } from '../../actions/tracksActions'
 
@@ -75,14 +74,9 @@ class TracksList extends Component {
   render() {
     return (
       <div className="Tracklist-container">
-        <FlipMove
-          className="TrackList is-fadeIn"
-          duration={300}
-          easing="ease-in-out"
-          maintainContainerHeight
-        >
+        <div className="TrackList">
           {this.getTracklist()}
-        </FlipMove>
+        </div>
         <div className="Tracklist-infos">
           <Info 
             {...this.props}

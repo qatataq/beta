@@ -44,7 +44,7 @@ export const fetchCurrentTrack = () =>
 export const fetchHistory = () =>
   dispatch => {
     dispatch(requestHistory('requestingHistory'))
-    return fetch(`https://www.radioking.com/widgets/api/v1/radio/117904/track/history?limit=20`)
+    return fetch(`https://www.radioking.com/widgets/api/v1/radio/117904/track/history?limit=30`)
       .then(response => response.json())
       .then((history) => {
         dispatch(receiveHistory(history.filter(track => track.album !== 'qatataq')))
