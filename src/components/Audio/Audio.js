@@ -69,7 +69,7 @@ class Audio extends Component {
     Velocity(element, animAttr, _.extend(animParams, onComplete))
   }
 
-  
+
   /**
    * Do actions when shortcuts are pressed :
    * - "space" togglePlay
@@ -114,7 +114,7 @@ class Audio extends Component {
           ref={audio => this.audio = audio}
           autoPlay
         >
-          <source src="http://195.154.185.139/radio/117904/stream/157294"/>
+          <source src="http://listen.radioking.com/radio/117904/stream/157294"/>
         </audio>
       </div>
     )
