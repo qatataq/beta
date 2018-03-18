@@ -114,7 +114,7 @@ class Audio extends Component {
           ref={audio => this.audio = audio}
           autoPlay
         >
-          <source src="http://listen.radioking.com/radio/117904/stream/157294"/>
+          <source src="https://listen.radioking.com/radio/117904/stream/157294"/>
         </audio>
       </div>
     )
