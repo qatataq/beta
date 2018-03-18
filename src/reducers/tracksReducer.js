@@ -78,16 +78,17 @@ const DEFAULT_STATE = {
   list: [],
   loading: false,
   error: null,
+  isNextTrackReady: false
 }
 
 const mergeArrays = (list, payload) => {
-  if (_.head(list) && _.head(list).duration === null && _.head(list).started_at === payload.started_at) {
-    list[0] = payload;
-    return(list);
+  const trackIndex = _.findIndex(list, track => (track.id === payload.id))
+  if (trackIndex !== -1) { //update track information
+    list[trackIndex] = payload;
+  } else if (payload.album !== 'qatataq') { //add new track
+    list = [payload, ...list];
   }
-  return _.get(_.head(list), 'started_at') !== payload.started_at && payload.album !== 'qatataq'
-      ? [payload, ...list] 
-      : list;
+  return list;
 }
 
 const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
@@ -109,7 +110,8 @@ const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
   case 'RECEIVE_CURRENT_TRACK':
     return {
       ...state,
-      list: mergeArrays(state.list, action.payload)
+      list: mergeArrays(state.list, action.payload),
+      isNextTrackReady: _.findIndex(state.list, track => (track.id === action.payload.id)) === -1
     }
   case 'RECEIVE_HISTORY':
     return {

@@ -11,10 +11,10 @@ class App extends Component {
   /**
    * When the component will mount, fetch the tracks of the playlist
    */
-  constructor(props) {    
+  constructor(props) {
     super(props);
-    props.fetchHistory()
-    props.fetchCurrentTrack()
+    props.fetchHistory();
+    props.fetchCurrentTrack();
   }
 
   render() {
