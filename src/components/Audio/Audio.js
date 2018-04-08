@@ -6,6 +6,8 @@ import { togglePlaying, updateVolume } from '../../actions/playerActions'
 import { PlayPause, Sound } from '../Icons'
 import '../../styles/Controls.css'
 
+const STREAM_URL = 'https://listen.radioking.com/radio/117904/stream/157294'
+
 class Audio extends Component {
   audio = null
   isStartingMobile = navigator.userAgent.toLowerCase().includes('mobi')
@@ -32,7 +34,12 @@ class Audio extends Component {
       this.audio.play()
     }
     if (prevProps.player.playing !== player.playing && this.audio) {
-      player.playing ? this.audio.play() : this.audio.pause()
+      if (player.playing) {
+        this.audio.play()
+      } else {
+        this.audio.src = STREAM_URL
+        this.audio.pause()
+      }
     }
     if (prevProps.player.volume !== player.volume && this.audio) {
       this.audio.volume = player.volume / 100
@@ -101,9 +108,7 @@ class Audio extends Component {
             updateVolume(event.target.value)
           }}
         />
-        <audio ref={audio => (this.audio = audio)} autoPlay>
-          <source src="https://listen.radioking.com/radio/117904/stream/157294" />
-        </audio>
+        <audio ref={audio => (this.audio = audio)} src={STREAM_URL} autoPlay />
       </div>
     )
   }
