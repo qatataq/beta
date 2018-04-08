@@ -109,7 +109,7 @@ class Audio extends Component {
   }
 }
 
-const mapStateToProps = null
+const mapStateToProps = ({ player }) => ({ player })
 
 const mapDispatchToProps = {
   togglePlaying,
