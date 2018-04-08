@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Velocity from 'velocity-animate'
-import _ from 'lodash'
+import { debounce, extend } from 'lodash'
 import {
   togglePlaying,
   updateVolume,
@@ -26,7 +26,7 @@ class Audio extends Component {
     if (this.isStartingMobile) {
       togglePlaying(true)
     } else {
-      window.addEventListener('keydown', _.debounce(this.resolveKeydown, 300))
+      window.addEventListener('keydown', debounce(this.resolveKeydown, 300))
     }
   }
 
@@ -66,7 +66,7 @@ class Audio extends Component {
       this.audio.play()
       this.isStartingMobile = false
     }
-    Velocity(element, animAttr, _.extend(animParams, onComplete))
+    Velocity(element, animAttr, extend(animParams, onComplete))
   }
 
 
@@ -121,11 +121,11 @@ class Audio extends Component {
   }
 }
 
-const stateToProps = () => ({})
+const mapStateToProps = null
 
-const dispatchToProps = (dispatch) => ({
-  togglePlaying: (playing) => { dispatch(togglePlaying(playing)) },
-  updateVolume: (newVolume) => { dispatch(updateVolume(newVolume)) },
-})
+const mapDispatchToProps = {
+  togglePlaying,
+  updateVolume,
+}
 
-export default connect(stateToProps, dispatchToProps)(Audio);
+export default connect(mapStateToProps, mapDispatchToProps)(Audio);

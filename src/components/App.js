@@ -8,13 +8,9 @@ import { fetchHistory, fetchCurrentTrack } from '../actions/tracksActions'
 import '../styles/App.css'
 
 class App extends Component {
-  /**
-   * When the component will mount, fetch the tracks of the playlist
-   */
-  constructor(props) {
-    super(props);
-    props.fetchHistory();
-    props.fetchCurrentTrack();
+  componentDidMount() {
+    this.props.fetchHistory();
+    this.props.fetchCurrentTrack();
   }
 
   render() {
@@ -28,11 +24,11 @@ class App extends Component {
   }
 }
 
-const stateToProps = () => ({})
+const mapStateToProps = null
 
-const dispatchToProps = (dispatch) => ({
-  fetchHistory: () => dispatch(fetchHistory()),
-  fetchCurrentTrack: () => dispatch(fetchCurrentTrack())
-})
+const mapDispatchToProps = {
+  fetchHistory,
+  fetchCurrentTrack
+}
 
-export default connect(stateToProps, dispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

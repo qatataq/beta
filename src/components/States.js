@@ -42,10 +42,6 @@ class States extends Component {
   }
 }
 
-const stateToProps = (state) => ({
-  tracks: state.tracks,
-})
+const mapStateToProps = ({ tracks }) => ({ tracks })
 
-const dispatchToProps = () => ({})
-
-export default connect(stateToProps, dispatchToProps)(States)
+export default connect(mapStateToProps)(States)

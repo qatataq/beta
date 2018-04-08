@@ -6,7 +6,7 @@ const DEFAULT_STATE = {
   prevVolume: 100,
 }
 
-const playerReducer = (state = DEFAULT_STATE, action: Object) => {
+const playerReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
   case 'LOAD_TRACK':
     return {
@@ -30,7 +30,7 @@ const playerReducer = (state = DEFAULT_STATE, action: Object) => {
       prevVolume: state.volume,
     }
   default:
-    return { ...state }
+    return state
   }
 }
 

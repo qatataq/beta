@@ -11,26 +11,19 @@ import noCover from '../../images/notrack.jpg'
 import '../../styles/TrackList.css'
 
 class TracksList extends Component {
+  interval1 = null
+  interval2 = null
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      trackFocused: null,
-      currentTrack: 0,
-      tracks: [],
-      interval1: null,
-      interval2: null,
-      nextTrackReady: false
-    }
+  state = {
+    trackFocused: null,
+    currentTrack: 0,
+    tracks: [],
+    nextTrackReady: false
   }
 
   componentDidMount() {
-    const interval1 = setInterval(this.isCurrentTrackFinished.bind(this), 5000);
-    const interval2 = setInterval(this.isNextTrackReady.bind(this), 5000);
-    this.setState({
-      interval1,
-      interval2
-    });
+    this.interval1 = setInterval(this.isCurrentTrackFinished, 5000);
+    this.interval2 = setInterval(this.isNextTrackReady, 5000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,15 +40,14 @@ class TracksList extends Component {
   }
 
   componentWillUnmount() {
-      clearInterval(this.state.interval1) // stop memory leaks
-      clearInterval(this.state.interval2) // stop memory leaks
+    clearInterval(this.interval1)
+    clearInterval(this.interval2)
   }
 
-  isCurrentTrackFinished() {
+  isCurrentTrackFinished = () => {
     const { tracks, currentTrack, nextTrackReady } = this.state;
     if (tracks[currentTrack].end_at) {
       const isTrackFinished = moment().isAfter(moment(tracks[currentTrack].end_at).add(30, 'seconds'));
-      //console.log("isTrackFinished", isTrackFinished, nextTrackReady, moment().format('HH:mm:ss'), moment(tracks[currentTrack].end_at).format('HH:mm:ss'));
       if (isTrackFinished && nextTrackReady) {
         this.setState({
           nextTrackReady: false
@@ -64,44 +56,43 @@ class TracksList extends Component {
     }
   }
 
-  isNextTrackReady() {
+  isNextTrackReady = () => {
     const { tracks, currentTrack, nextTrackReady } = this.state;
 
     if (tracks[currentTrack].end_at) {
       const isTrackAlmostFinished = moment().isAfter(moment(tracks[currentTrack].end_at).add(20, 'seconds'));
-      //console.log("isTrackReady", isTrackAlmostFinished, !nextTrackReady, moment().format('HH:mm:ss'), new moment(tracks[currentTrack].end_at).format('HH:mm:ss'));
       if (isTrackAlmostFinished && !nextTrackReady) {
         this.props.fetchCurrentTrack();
       }
     }
   }
 
-  onMouseOver(track) {
+  onMouseOver = (track) => {
     this.setState({
       trackFocused: track
     });
   }
 
-  onMouseOut() {
+  onMouseOut = () => {
     this.setState({
       trackFocused: null
     });
   }
 
-  getTracklist() {
+  getTracklist = () => {
     const { tracks } = this.state;
 
     if (tracks.length !== 0) {
-     return tracks.map((d, i) => (
+     return tracks.map((track, index) => (
       <img
+        key={track.id}
+        alt={track.title}
         className={classnames('TrackList-item', {
-          'last': i === 0,
+          last: index === 0,
         })}
-        key={i}
-        src={d.cover ? d.cover : noCover}
-        role="track"
-        onMouseOut={() => this.onMouseOut(d)}
-        onMouseOver={() => this.onMouseOver(d)}
+        src={track.cover ? track.cover : noCover}
+        onMouseOut={() => this.onMouseOut(track)}
+        onMouseOver={() => this.onMouseOver(track)}
       />))
     }
     return null;
@@ -124,13 +115,13 @@ class TracksList extends Component {
   }
 }
 
-const stateToProps = ({ tracks, isNextTrackReady }) => ({
+const mapStateToProps = ({ tracks, isNextTrackReady }) => ({
   tracks,
   isNextTrackReady,
 })
 
-const dispatchToProps = (dispatch) => ({
-  fetchCurrentTrack: () => dispatch(fetchCurrentTrack()),
-})
+const mapDispatchToProps = {
+  fetchCurrentTrack,
+}
 
-export default connect(stateToProps, dispatchToProps)(TracksList);
+export default connect(mapStateToProps, mapDispatchToProps)(TracksList);

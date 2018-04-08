@@ -1,5 +1,3 @@
-import _ from 'lodash'
-import moment from 'moment'
 import 'whatwg-fetch'
 import hash from 'quick-hash'
 

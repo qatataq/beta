@@ -1,6 +1,6 @@
-import _ from 'lodash'
+import { findIndex, find } from 'lodash'
 
-const tracks = [{
+/* const tracks = [{
   "artist": "Brasstracks",
   "title": "Those Who Know",
   "album": null,
@@ -72,7 +72,7 @@ const tracks = [{
   "started_at": "2017-12-23T13:36:23+0000",
   "end_at": "2017-12-23T13:39:42+0000",
   "duration": 198.502
-}]
+}] */
 
 const DEFAULT_STATE = {
   list: [],
@@ -82,7 +82,7 @@ const DEFAULT_STATE = {
 }
 
 const mergeArrays = (list, payload) => {
-  const trackIndex = _.findIndex(list, track => (track.id === payload.id))
+  const trackIndex = findIndex(list, track => (track.id === payload.id))
   if (trackIndex !== -1) { //update track information
     list[trackIndex] = payload;
   } else if (payload.album !== 'qatataq') { //add new track
@@ -91,12 +91,10 @@ const mergeArrays = (list, payload) => {
   return list;
 }
 
-const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
+const tracksReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
   case 'REQUEST_TRACKS':
-    return {
-      ...state
-    }
+    return state
   case 'REQUEST_HISTORY':
     return {
       ...state,
@@ -111,7 +109,7 @@ const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
     return {
       ...state,
       list: mergeArrays(state.list, action.payload),
-      isNextTrackReady: _.findIndex(state.list, track => (track.id === action.payload.id)) === -1
+      isNextTrackReady: !!find(state.list, track => (track.id === action.payload.id))
     }
   case 'RECEIVE_HISTORY':
     return {
@@ -120,7 +118,7 @@ const tracksReducer = (state = DEFAULT_STATE, action: Object) => {
       list: action.payload
     }
   default:
-    return { ...state }
+    return state
   }
 }
 
