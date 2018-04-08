@@ -1,83 +1,83 @@
 .Tracklist-container {
-    width: 100%;
-    height: 60%;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-    align-items: center;
-    z-index: 2;
+  width: 100%;
+  height: 60%;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: center;
+  z-index: 2;
 }
 
 .TrackList {
-    flex-direction: row-reverse;
-    display: flex;
-    flex-wrap: nowrap;
-    width: 50%;
-    margin-left: 100px;
-    height: 8rem;
-    align-items: center;
-    justify-content: flex-start;
+  flex-direction: row-reverse;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50%;
+  margin-left: 100px;
+  height: 8rem;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .Tracklist-infos {
-    box-sizing: border-box;
-    padding: 0 100px;
+  box-sizing: border-box;
+  padding: 0 100px;
 }
 
 .TrackList-item {
-    height: 8rem;
-    width: 8rem;
-    background-color: #FF0000;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    border-radius: 50%;
-    opacity: .7;
-    transform-origin: top left;
-    transform-origin: center;
-    transition: all .2s ease-in-out;
-    flex-grow: 1;
-    flex-shrink: 0;
+  height: 8rem;
+  width: 8rem;
+  background-color: #ff0000;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+  opacity: 0.7;
+  transform-origin: top left;
+  transform-origin: center;
+  transition: all 0.2s ease-in-out;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
 .TrackList-item.last {
-    transform: scale(1.3);
-    opacity: 1;
-    margin: 0 40px; 
-    animation: zoomIn 0.5s ease-in-out;
+  transform: scale(1.3);
+  opacity: 1;
+  margin: 0 40px;
+  animation: zoomIn 0.5s ease-in-out;
 }
 
 .TrackList-item:hover:not(.last) {
-    transform: scale(1.3);
-    opacity: 1;
+  transform: scale(1.3);
+  opacity: 1;
 }
 
 .TrackList-item:not(.last) {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .TrackList-item img {
-    width: 8rem;
-    border-radius: 50%;
+  width: 8rem;
+  border-radius: 50%;
 }
 
 .TrackList-item.last img {
-    width: 11rem;
-    border-radius: 50%;
+  width: 11rem;
+  border-radius: 50%;
 }
 
 @media screen and (max-width: 1024px) {
-    .Tracklist-container {
-        flex-direction: column-reverse;
-        align-items: flex-start;
-    }
-    .Tracklist-infos {      
-        margin: 0 auto;
-        padding-top: 40px;
-    }
-    .TrackList {
-        width: 50%;
-    }
+  .Tracklist-container {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+  .Tracklist-infos {
+    margin: 0 auto;
+    padding-top: 40px;
+  }
+  .TrackList {
+    width: 50%;
+  }
 }
 
 @keyframes zoomIn {

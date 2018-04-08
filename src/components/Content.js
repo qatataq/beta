@@ -9,17 +9,19 @@ import '../styles/Content.css'
 class Content extends Component {
   render() {
     const { player, tracks } = this.props
-    const render = player && tracks &&
-      <div className='content'>
-        <TracksList {...this.props} />
-        <Audio {...this.props} />
-      </div>
+    const render = player &&
+      tracks && (
+        <div className="content">
+          <TracksList {...this.props} />
+          <Audio {...this.props} />
+        </div>
+      )
 
     return render
   }
 }
 
-const stateToProps = (state) => ({
+const stateToProps = state => ({
   player: state.player,
   tracks: state.tracks,
 })

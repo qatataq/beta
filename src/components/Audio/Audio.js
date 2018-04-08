@@ -2,27 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Velocity from 'velocity-animate'
 import { debounce, extend } from 'lodash'
-import {
-  togglePlaying,
-  updateVolume,
-} from '../../actions/playerActions'
-import {
-  PlayPause,
-  Sound,
-} from '../Icons'
+import { togglePlaying, updateVolume } from '../../actions/playerActions'
+import { PlayPause, Sound } from '../Icons'
 import '../../styles/Controls.css'
 
 class Audio extends Component {
-
   audio = null
-  isStartingMobile = navigator.userAgent
-    .toLowerCase()
-    .includes('mobi')
+  isStartingMobile = navigator.userAgent.toLowerCase().includes('mobi')
 
   componentDidMount() {
     const { togglePlaying } = this.props
-    // If on mobile device manually set the audio as paused
 
+    // If on mobile device manually set the audio as paused
     if (this.isStartingMobile) {
       togglePlaying(true)
     } else {
@@ -48,18 +39,17 @@ class Audio extends Component {
     }
   }
 
-  handlePlayPause = (event) => {
+  handlePlayPause = event => {
     const { player, togglePlaying } = this.props
     const element = event.currentTarget
     const animAttr = { scaleX: '0.3', scaleY: '0.3', opacity: '0' }
-    const animParams = { duration:200, easing: [.13,1.67,.72,2] }
+    const animParams = { duration: 200, easing: [0.13, 1.67, 0.72, 2] }
     const onComplete = {
       complete: () => {
         togglePlaying(player.playing)
-        Velocity(element, 'reverse', animParams)
-          .then(() => {
-            Velocity(element, 'stop', true)
-          })
+        Velocity(element, 'reverse', animParams).then(() => {
+          Velocity(element, 'stop', true)
+        })
       },
     }
     if (this.isStartingMobile) {
@@ -69,14 +59,13 @@ class Audio extends Component {
     Velocity(element, animAttr, extend(animParams, onComplete))
   }
 
-
   /**
    * Do actions when shortcuts are pressed :
    * - "space" togglePlay
    * - "m" toggleMute
    * - "n", "arrow key right" nextTrack
    */
-  resolveKeydown = (event) => {
+  resolveKeydown = event => {
     const { togglePlaying, player, updateVolume } = this.props
     event.preventDefault()
     switch (event.keyCode) {
@@ -108,13 +97,12 @@ class Audio extends Component {
         <Sound
           className={'controls-sound'}
           volume={player.volume}
-          onChange={(event) => { updateVolume(event.target.value) }}
+          onChange={event => {
+            updateVolume(event.target.value)
+          }}
         />
-        <audio
-          ref={audio => this.audio = audio}
-          autoPlay
-        >
-          <source src="https://listen.radioking.com/radio/117904/stream/157294"/>
+        <audio ref={audio => (this.audio = audio)} autoPlay>
+          <source src="https://listen.radioking.com/radio/117904/stream/157294" />
         </audio>
       </div>
     )
@@ -128,4 +116,4 @@ const mapDispatchToProps = {
   updateVolume,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Audio);
+export default connect(mapStateToProps, mapDispatchToProps)(Audio)

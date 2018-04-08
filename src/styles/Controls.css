@@ -1,17 +1,17 @@
-.Controls {    
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    bottom: 5%;
+.Controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 5%;
 }
 
 .controls-play {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1024px) {
-    .controls-sound {
-        display: none;
-    }
+  .controls-sound {
+    display: none;
+  }
 }

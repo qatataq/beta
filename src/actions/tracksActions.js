@@ -16,9 +16,9 @@ const receiveErrorTracks = payload => ({
   payload,
 })
 
-const receiveCurrentTrack = (payload) => ({
+const receiveCurrentTrack = payload => ({
   type: 'RECEIVE_CURRENT_TRACK',
-  payload
+  payload,
 })
 
 const receiveHistory = payload => ({
@@ -26,39 +26,42 @@ const receiveHistory = payload => ({
   payload,
 })
 
-
-const addIdToTracks = (tracks) => {
+const addIdToTracks = tracks => {
   return tracks.map(track => ({
-    id : hash(track.started_at),
-    ...track
-  }));
+    id: hash(track.started_at),
+    ...track,
+  }))
 }
 
-export const fetchCurrentTrack = () =>
-  dispatch => {
-    dispatch(requestTracks('requestingCurrentTrack'))
-    return fetch(`https://www.radioking.com/widgets/currenttrack.php?radio=117904&format=json`)
-      .then(response => response.json())
-      .then((newTrack) => {
-        dispatch(receiveCurrentTrack(...addIdToTracks([newTrack])))
-      })
-      .catch(error => {
-        console.log(error);
-        dispatch(receiveErrorTracks(error))
-      })
-  }
+export const fetchCurrentTrack = () => dispatch => {
+  dispatch(requestTracks('requestingCurrentTrack'))
+  return fetch(
+    `https://www.radioking.com/widgets/currenttrack.php?radio=117904&format=json`
+  )
+    .then(response => response.json())
+    .then(newTrack => {
+      dispatch(receiveCurrentTrack(...addIdToTracks([newTrack])))
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch(receiveErrorTracks(error))
+    })
+}
 
-export const fetchHistory = () =>
-  dispatch => {
-    dispatch(requestHistory('requestingHistory'))
-    return fetch(`https://www.radioking.com/widgets/api/v1/radio/117904/track/history?limit=20`)
-      .then(response => response.json())
-      .then((history) => {
-        history = addIdToTracks(history);
-        dispatch(receiveHistory(history.filter(track => track.album !== 'qatataq')));
-      })
-      .catch(error => {
-        console.log(error);
-        dispatch(receiveErrorTracks(error))
-      })
-  }
+export const fetchHistory = () => dispatch => {
+  dispatch(requestHistory('requestingHistory'))
+  return fetch(
+    `https://www.radioking.com/widgets/api/v1/radio/117904/track/history?limit=20`
+  )
+    .then(response => response.json())
+    .then(history => {
+      history = addIdToTracks(history)
+      dispatch(
+        receiveHistory(history.filter(track => track.album !== 'qatataq'))
+      )
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch(receiveErrorTracks(error))
+    })
+}

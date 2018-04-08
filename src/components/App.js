@@ -9,8 +9,8 @@ import '../styles/App.css'
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchHistory();
-    this.props.fetchCurrentTrack();
+    this.props.fetchHistory()
+    this.props.fetchCurrentTrack()
   }
 
   render() {
@@ -28,7 +28,7 @@ const mapStateToProps = null
 
 const mapDispatchToProps = {
   fetchHistory,
-  fetchCurrentTrack
+  fetchCurrentTrack,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

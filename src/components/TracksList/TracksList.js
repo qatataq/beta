@@ -17,24 +17,24 @@ class TracksList extends Component {
     trackFocused: null,
     currentTrack: 0,
     tracks: [],
-    nextTrackReady: false
+    nextTrackReady: false,
   }
 
   componentDidMount() {
-    this.interval1 = setInterval(this.isCurrentTrackFinished, 5000);
-    this.interval2 = setInterval(this.isNextTrackReady, 5000);
+    this.interval1 = setInterval(this.isCurrentTrackFinished, 5000)
+    this.interval2 = setInterval(this.isNextTrackReady, 5000)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { tracks, isNextTrackReady } = nextProps;
-    const { currentTrack } = this.state;
+    const { tracks, isNextTrackReady } = nextProps
+    const { currentTrack } = this.state
     this.setState({
-      tracks: tracks.list.slice(currentTrack)
+      tracks: tracks.list.slice(currentTrack),
     })
     if (isNextTrackReady) {
       this.setState({
-        nextTrackReady: true
-      });
+        nextTrackReady: true,
+      })
     }
   }
 
@@ -44,70 +44,70 @@ class TracksList extends Component {
   }
 
   isCurrentTrackFinished = () => {
-    const { tracks, currentTrack, nextTrackReady } = this.state;
+    const { tracks, currentTrack, nextTrackReady } = this.state
     if (tracks[currentTrack].end_at) {
-      const isTrackFinished = moment().isAfter(moment(tracks[currentTrack].end_at).add(30, 'seconds'));
+      const isTrackFinished = moment().isAfter(
+        moment(tracks[currentTrack].end_at).add(30, 'seconds')
+      )
       if (isTrackFinished && nextTrackReady) {
         this.setState({
-          nextTrackReady: false
+          nextTrackReady: false,
         })
       }
     }
   }
 
   isNextTrackReady = () => {
-    const { tracks, currentTrack, nextTrackReady } = this.state;
+    const { tracks, currentTrack, nextTrackReady } = this.state
 
     if (tracks[currentTrack].end_at) {
-      const isTrackAlmostFinished = moment().isAfter(moment(tracks[currentTrack].end_at).add(20, 'seconds'));
+      const isTrackAlmostFinished = moment().isAfter(
+        moment(tracks[currentTrack].end_at).add(20, 'seconds')
+      )
       if (isTrackAlmostFinished && !nextTrackReady) {
-        this.props.fetchCurrentTrack();
+        this.props.fetchCurrentTrack()
       }
     }
   }
 
-  onMouseOver = (track) => {
+  onMouseOver = track => {
     this.setState({
-      trackFocused: track
-    });
+      trackFocused: track,
+    })
   }
 
   onMouseOut = () => {
     this.setState({
-      trackFocused: null
-    });
+      trackFocused: null,
+    })
   }
 
   getTracklist = () => {
-    const { tracks } = this.state;
+    const { tracks } = this.state
 
     if (tracks.length !== 0) {
-     return tracks.map((track, index) => (
-      <img
-        key={track.id}
-        alt={track.title}
-        className={classnames('TrackList-item', {
-          last: index === 0,
-        })}
-        src={track.cover ? track.cover : noCover}
-        onMouseOut={() => this.onMouseOut(track)}
-        onMouseOver={() => this.onMouseOver(track)}
-      />))
+      return tracks.map((track, index) => (
+        <img
+          key={track.id}
+          alt={track.title}
+          className={classnames('TrackList-item', {
+            last: index === 0,
+          })}
+          src={track.cover ? track.cover : noCover}
+          onMouseOut={() => this.onMouseOut(track)}
+          onMouseOver={() => this.onMouseOver(track)}
+        />
+      ))
     }
-    return null;
+    return null
   }
 
   render() {
     return (
       <div className="Tracklist-container">
-        <div className="TrackList">
-          {this.getTracklist()}
-        </div>
+        <div className="TrackList">{this.getTracklist()}</div>
         <div className="Tracklist-infos">
-          <Info
-            {...this.props}
-            trackFocused={this.state.trackFocused}
-          />
+          <Info {...this.props} trackFocused={this.state.trackFocused} />
         </div>
       </div>
     )
@@ -123,4 +123,4 @@ const mapDispatchToProps = {
   fetchCurrentTrack,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TracksList);
+export default connect(mapStateToProps, mapDispatchToProps)(TracksList)

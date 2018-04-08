@@ -1,8 +1,4 @@
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-} from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import player from './reducers/playerReducer'
@@ -10,7 +6,7 @@ import tracks from './reducers/tracksReducer'
 
 const logger = createLogger({
   collapsed: () => true,
-});
+})
 
 const middleware = [thunk]
 

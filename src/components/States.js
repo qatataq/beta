@@ -20,10 +20,7 @@ const Error = () => (
   </div>
 )
 
-export {
-  Loader,
-  Error,
-}
+export { Loader, Error }
 
 class States extends Component {
   render() {
