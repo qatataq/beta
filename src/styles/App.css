@@ -94,15 +94,6 @@ footer {
     color: #8e8ce9;
 }
 
-.fade-leave {
-  opacity: 1;
-}
-
-.fade-leave.fade-leave-active {
-  opacity: 0;
-  transition: opacity 500ms ease-in-out;
-}
-
 .is-fadeIn {
     opacity: 0;
     animation: fadein .7s ease-in 1s forwards;

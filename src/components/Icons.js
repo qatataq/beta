@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 
 const PlayPause = ({ isPlaying, ...props }) => (
   <div {...props}>
@@ -30,10 +30,6 @@ const PlayPause = ({ isPlaying, ...props }) => (
     </svg>
   </div>
 )
-
-PlayPause.propTypes = {
-  isPlaying: PropTypes.bool.isRequired,
-}
 
 const Sound = ({ onChange, reference, volume, ...props }) => (
   <div {...props}

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 
 import logo from '../images/logo.svg'
 import error from '../images/error-qatataqfm.svg'
@@ -29,16 +28,16 @@ export {
 class States extends Component {
   render() {
     const { tracks } = this.props
-    return (
-      <ReactCSSTransitionGroup
-        transitionName="fade"
-        transitionEnterTimeout={0}
-        transitionLeaveTimeout={500}
-      >
-        {tracks.loading && (<Loader />)}
-        {tracks.error && (<Error />)}
-      </ReactCSSTransitionGroup>
-    )
+
+    if (tracks.loading) {
+      return <Loader />
+    }
+
+    if (tracks.error) {
+      return <Error />
+    }
+
+    return null
   }
 }
 
