@@ -31,7 +31,7 @@ const PlayPause = ({ isPlaying, ...props }) => (
   </div>
 )
 
-const Sound = ({ onChange, reference, volume, ...props }) => (
+const Volume = ({ onChange, reference, volume, ...props }) => (
   <div {...props} ref={reference}>
     <input
       type="range"
@@ -92,4 +92,4 @@ const Sound = ({ onChange, reference, volume, ...props }) => (
   </div>
 )
 
-export { PlayPause, Sound }
+export { PlayPause, Volume }

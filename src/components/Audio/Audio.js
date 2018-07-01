@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import Sound from 'react-sound'
 import { connect } from 'react-redux'
 import Velocity from 'velocity-animate'
 import { debounce, extend } from 'lodash'
 import { togglePlaying, updateVolume } from '../../actions/playerActions'
-import { PlayPause, Sound } from '../Icons'
+import { PlayPause, Volume } from '../Icons'
 import '../../styles/Controls.css'
 
 const STREAM_URL = 'https://listen.radioking.com/radio/117904/stream/157294'
@@ -12,42 +13,30 @@ class Audio extends Component {
   audio = null
   isStartingMobile = navigator.userAgent.toLowerCase().includes('mobi')
 
-  componentDidMount() {
-    const { togglePlaying } = this.props
-
-    // If on mobile device manually set the audio as paused
-    if (this.isStartingMobile) {
-      togglePlaying(true)
-    } else {
-      window.addEventListener('keydown', debounce(this.resolveKeydown, 300))
+  constructor(props) {
+    super(props)
+    this.state = {
+      playingStatus: Sound.status.PLAYING,
+      volume: 100,
+      stream: STREAM_URL,
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { player } = this.props
-    if (this.isStartingMobile) {
-      return
-    }
-    if (prevProps.player.index !== player.index && this.audio) {
-      this.audio.pause()
-      this.audio.load()
-      this.audio.play()
-    }
-    if (prevProps.player.playing !== player.playing && this.audio) {
-      if (player.playing) {
-        this.audio.play()
-      } else {
-        this.audio.src = STREAM_URL
-        this.audio.pause()
-      }
-    }
-    if (prevProps.player.volume !== player.volume && this.audio) {
-      this.audio.volume = player.volume / 100
-    }
-  }
+  componentDidMount() {}
 
   handlePlayPause = event => {
     const { player, togglePlaying } = this.props
+    const { playingStatus } = this.state
+
+    const newPlayerState =
+      playingStatus === Sound.status.PLAYING
+        ? Sound.status.PAUSED
+        : Sound.status.PLAYING
+    console.log(newPlayerState)
+    this.setState({
+      playingStatus: newPlayerState,
+      stream: playingStatus === Sound.status.PLAYING ? '' : STREAM_URL,
+    })
     const element = event.currentTarget
     const animAttr = { scaleX: '0.3', scaleY: '0.3', opacity: '0' }
     const animParams = { duration: 200, easing: [0.13, 1.67, 0.72, 2] }
@@ -58,10 +47,6 @@ class Audio extends Component {
           Velocity(element, 'stop', true)
         })
       },
-    }
-    if (this.isStartingMobile) {
-      this.audio.play()
-      this.isStartingMobile = false
     }
     Velocity(element, animAttr, extend(animParams, onComplete))
   }
@@ -94,6 +79,7 @@ class Audio extends Component {
 
   render() {
     const { player, updateVolume } = this.props
+    const { volume, playingStatus, stream } = this.state
     return (
       <div className="Controls is-fadeIn">
         <PlayPause
@@ -101,14 +87,19 @@ class Audio extends Component {
           isPlaying={player.playing}
           onClick={this.handlePlayPause}
         />
-        <Sound
+        <Volume
           className={'controls-sound'}
-          volume={player.volume}
+          volume={volume}
           onChange={event => {
-            updateVolume(event.target.value)
+            this.setState({ volume: event.target.value })
           }}
         />
-        <audio ref={audio => (this.audio = audio)} src={STREAM_URL} autoPlay />
+        <Sound
+          url={stream}
+          autoPlay
+          playStatus={playingStatus}
+          volume={volume}
+        />
       </div>
     )
   }

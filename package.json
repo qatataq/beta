@@ -17,7 +17,9 @@
     "quick-hash": "^1.0.4",
     "react": "^16.3.1",
     "react-dom": "^16.3.1",
+    "react-howler": "^3.7.3",
     "react-redux": "^5.0.1",
+    "react-sound": "^1.2.0",
     "redux": "^3.6.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.1.0",
@@ -30,7 +32,7 @@
     "eject": "react-scripts eject",
     "deploy": "npm run build && gh-pages -d build",
     "prettier": "prettier --write 'src/**/*.{js,css}'",
-    "precommit": "lint-staged"    
+    "precommit": "lint-staged"
   },
   "lint-staged": {
     "**/*.{js,css}": [
