@@ -19,6 +19,7 @@ class Audio extends Component {
       playingStatus: Sound.status.PLAYING,
       volume: 100,
       stream: STREAM_URL,
+      mute: false,
     }
   }
 
@@ -79,26 +80,34 @@ class Audio extends Component {
 
   render() {
     const { player, updateVolume } = this.props
-    const { volume, playingStatus, stream } = this.state
+    const { volume, playingStatus, stream, mute } = this.state
     return (
       <div className="Controls is-fadeIn">
         <PlayPause
           className="controls-play"
-          isPlaying={player.playing}
+          isPlaying={playingStatus === Sound.status.PLAYING}
           onClick={this.handlePlayPause}
         />
         <Volume
           className={'controls-sound'}
-          volume={volume}
+          volume={mute ? 0 : volume}
           onChange={event => {
-            this.setState({ volume: event.target.value })
+            this.setState({
+              volume: event.target.value,
+              mute: false,
+            })
+          }}
+          mute={() => {
+            this.setState({
+              mute: !this.state.mute,
+            })
           }}
         />
         <Sound
           url={stream}
           autoPlay
           playStatus={playingStatus}
-          volume={volume}
+          volume={mute ? 0 : volume}
         />
       </div>
     )

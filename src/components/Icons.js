@@ -31,7 +31,7 @@ const PlayPause = ({ isPlaying, ...props }) => (
   </div>
 )
 
-const Volume = ({ onChange, reference, volume, ...props }) => (
+const Volume = ({ onChange, reference, volume, mute, ...props }) => (
   <div {...props} ref={reference}>
     <input
       type="range"
@@ -53,6 +53,7 @@ const Volume = ({ onChange, reference, volume, ...props }) => (
       height="34"
       viewBox="0 0 142 34"
       xmlns="http://www.w3.org/2000/svg"
+      onClick={() => mute()}
     >
       <g fill="none" fillRule="evenodd">
         <g transform="translate(50 12)">
