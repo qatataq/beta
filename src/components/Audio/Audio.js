@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Sound from 'react-sound'
 import { connect } from 'react-redux'
 import Velocity from 'velocity-animate'
-import { debounce, extend } from 'lodash'
+import { extend } from 'lodash'
 import { togglePlaying, updateVolume } from '../../actions/playerActions'
 import { PlayPause, Volume } from '../Icons'
 import '../../styles/Controls.css'
@@ -11,12 +11,11 @@ const STREAM_URL = 'https://listen.radioking.com/radio/117904/stream/157294'
 
 class Audio extends Component {
   audio = null
-  isStartingMobile = navigator.userAgent.toLowerCase().includes('mobi')
 
   constructor(props) {
     super(props)
     this.state = {
-      playingStatus: Sound.status.PLAYING,
+      playingStatus: Sound.status.STOPPED,
       volume: 100,
       stream: STREAM_URL,
       mute: false,
@@ -33,7 +32,6 @@ class Audio extends Component {
       playingStatus === Sound.status.PLAYING
         ? Sound.status.PAUSED
         : Sound.status.PLAYING
-    console.log(newPlayerState)
     this.setState({
       playingStatus: newPlayerState,
       stream: playingStatus === Sound.status.PLAYING ? '' : STREAM_URL,
@@ -79,7 +77,6 @@ class Audio extends Component {
   }
 
   render() {
-    const { player, updateVolume } = this.props
     const { volume, playingStatus, stream, mute } = this.state
     return (
       <div className="Controls is-fadeIn">
