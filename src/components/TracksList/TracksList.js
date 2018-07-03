@@ -109,6 +109,7 @@ class TracksList extends Component {
         <div className="Tracklist-infos">
           <Info {...this.props} trackFocused={this.state.trackFocused} />
         </div>
+        <div />
       </div>
     )
   }
