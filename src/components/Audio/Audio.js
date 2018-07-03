@@ -15,7 +15,7 @@ class Audio extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      playingStatus: Sound.status.STOPPED,
+      playingStatus: Sound.status.PLAYING,
       volume: 100,
       stream: STREAM_URL,
       mute: false,
@@ -105,6 +105,11 @@ class Audio extends Component {
           autoPlay
           playStatus={playingStatus}
           volume={mute ? 0 : volume}
+          onLoad={() =>
+            this.setState({
+              playingStatus: Sound.status.STOPPED,
+            })
+          }
         />
       </div>
     )
