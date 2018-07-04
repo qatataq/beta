@@ -86,7 +86,7 @@ class Audio extends Component {
           onClick={this.handlePlayPause}
         />
         <Volume
-          className={'controls-sound'}
+          className="controls-sound"
           volume={mute ? 0 : volume}
           onChange={event => {
             this.setState({

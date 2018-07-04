@@ -41,7 +41,7 @@ const Volume = ({ onChange, reference, volume, mute, ...props }) => (
       step="2"
       style={{
         position: 'absolute',
-        top: '81px',
+        top: '8px',
         left: '47px',
         opacity: 0,
         width: '92px',

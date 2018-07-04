@@ -10,6 +10,10 @@
   margin: 20px 0;
 }
 
+.controls-sound {
+  position: relative;
+}
+
 @media screen and (max-width: 1024px) {
   .controls-sound {
     display: none;
