@@ -14,7 +14,7 @@
   position: relative;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-height: 680px) {
   .controls-sound {
     display: none;
   }
