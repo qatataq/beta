@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Sound from 'react-sound'
 import { connect } from 'react-redux'
+import { soundManager } from 'soundmanager2'
 import Velocity from 'velocity-animate'
 import { extend } from 'lodash'
 import { togglePlaying, updateVolume } from '../../actions/playerActions'
@@ -8,6 +9,8 @@ import { PlayPause, Volume } from '../Icons'
 import '../../styles/Controls.css'
 
 const STREAM_URL = 'https://listen.radioking.com/radio/117904/stream/157294'
+
+soundManager.setup({ debugMode: false })
 
 class Audio extends Component {
   audio = null
@@ -21,8 +24,6 @@ class Audio extends Component {
       mute: false,
     }
   }
-
-  componentDidMount() {}
 
   handlePlayPause = event => {
     const { player, togglePlaying } = this.props

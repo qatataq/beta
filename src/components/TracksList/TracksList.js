@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import moment from 'moment'
 import classnames from 'classnames'
 import Info from './../Info'
 import { fetchCurrentTrack } from '../../actions/tracksActions'
@@ -9,65 +8,35 @@ import noCover from '../../images/notrack.jpg'
 
 import '../../styles/TrackList.css'
 
+const INTERVAL = 10000
+
 class TracksList extends Component {
   interval1 = null
-  interval2 = null
 
   state = {
     trackFocused: null,
     currentTrack: 0,
     tracks: [],
-    nextTrackReady: false,
   }
 
   componentDidMount() {
-    this.interval1 = setInterval(this.isCurrentTrackFinished, 5000)
-    this.interval2 = setInterval(this.isNextTrackReady, 5000)
+    this.interval1 = setInterval(this.fetchNextTrack, INTERVAL)
   }
 
   componentWillReceiveProps(nextProps) {
-    const { tracks, isNextTrackReady } = nextProps
+    const { tracks } = nextProps
     const { currentTrack } = this.state
     this.setState({
       tracks: tracks.list.slice(currentTrack),
     })
-    if (isNextTrackReady) {
-      this.setState({
-        nextTrackReady: true,
-      })
-    }
   }
 
   componentWillUnmount() {
     clearInterval(this.interval1)
-    clearInterval(this.interval2)
   }
 
-  isCurrentTrackFinished = () => {
-    const { tracks, currentTrack, nextTrackReady } = this.state
-    if (tracks[currentTrack].end_at) {
-      const isTrackFinished = moment().isAfter(
-        moment(tracks[currentTrack].end_at).add(30, 'seconds')
-      )
-      if (isTrackFinished && nextTrackReady) {
-        this.setState({
-          nextTrackReady: false,
-        })
-      }
-    }
-  }
-
-  isNextTrackReady = () => {
-    const { tracks, currentTrack, nextTrackReady } = this.state
-
-    if (tracks[currentTrack].end_at) {
-      const isTrackAlmostFinished = moment().isAfter(
-        moment(tracks[currentTrack].end_at).add(20, 'seconds')
-      )
-      if (isTrackAlmostFinished && !nextTrackReady) {
-        this.props.fetchCurrentTrack()
-      }
-    }
+  fetchNextTrack = () => {
+    this.props.fetchCurrentTrack()
   }
 
   onMouseOver = track => {
