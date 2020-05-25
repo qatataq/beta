@@ -1,55 +1,46 @@
-import React, { Component } from 'react'
-import Sound from 'react-sound'
-import { connect } from 'react-redux'
-import { soundManager } from 'soundmanager2'
-import Velocity from 'velocity-animate'
-import { extend } from 'lodash'
-import { togglePlaying, updateVolume } from '../../actions/playerActions'
-import { PlayPause, Volume } from '../Icons'
-import '../../styles/Controls.css'
+import React, { Component } from "react";
+import ReactPlayer from 'react-player';
+import { connect } from "react-redux";
+import Velocity from "velocity-animate";
+import { extend } from "lodash";
+import { togglePlaying, updateVolume } from "../../actions/playerActions";
+import { PlayPause, Volume } from "../Icons";
+import "../../styles/Controls.css";
 
-const STREAM_URL = 'https://listen.radioking.com/radio/117904/stream/157294'
-
-soundManager.setup({ debugMode: false })
+const STREAM_URL = "https://listen.radioking.com/radio/117904/stream/157294";
 
 class Audio extends Component {
-  audio = null
+  audio = null;
 
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      playingStatus: Sound.status.PLAYING,
-      volume: 100,
+      playingStatus: false,
+      volume: 1,
       stream: STREAM_URL,
       mute: false,
-    }
+    };
   }
 
-  handlePlayPause = event => {
-    const { player, togglePlaying } = this.props
-    const { playingStatus } = this.state
+  handlePlayPause = (event) => {
+    const { player, togglePlaying } = this.props;
 
-    const newPlayerState =
-      playingStatus === Sound.status.PLAYING
-        ? Sound.status.PAUSED
-        : Sound.status.PLAYING
     this.setState({
-      playingStatus: newPlayerState,
-      stream: playingStatus === Sound.status.PLAYING ? '' : STREAM_URL,
-    })
-    const element = event.currentTarget
-    const animAttr = { scaleX: '0.3', scaleY: '0.3', opacity: '0' }
-    const animParams = { duration: 200, easing: [0.13, 1.67, 0.72, 2] }
+      playingStatus: !this.state.playingStatus
+    });
+    const element = event.currentTarget;
+    const animAttr = { scaleX: "0.3", scaleY: "0.3", opacity: "0" };
+    const animParams = { duration: 200, easing: [0.13, 1.67, 0.72, 2] };
     const onComplete = {
       complete: () => {
-        togglePlaying(player.playing)
-        Velocity(element, 'reverse', animParams).then(() => {
-          Velocity(element, 'stop', true)
-        })
+        togglePlaying(player.playing);
+        Velocity(element, "reverse", animParams).then(() => {
+          Velocity(element, "stop", true);
+        });
       },
-    }
-    Velocity(element, animAttr, extend(animParams, onComplete))
-  }
+    };
+    Velocity(element, animAttr, extend(animParams, onComplete));
+  };
 
   /**
    * Do actions when shortcuts are pressed :
@@ -57,71 +48,66 @@ class Audio extends Component {
    * - "m" toggleMute
    * - "n", "arrow key right" nextTrack
    */
-  resolveKeydown = event => {
-    const { togglePlaying, player, updateVolume } = this.props
-    event.preventDefault()
+  resolveKeydown = (event) => {
+    const { togglePlaying, player, updateVolume } = this.props;
+    event.preventDefault();
     switch (event.keyCode) {
       case 32: // space
-        togglePlaying(player.playing)
-        break
+        togglePlaying(player.playing);
+        break;
       case 77: // m
         if (player.volume) {
-          updateVolume(0)
+          updateVolume(0);
         } else {
-          updateVolume(player.prevVolume)
+          updateVolume(player.prevVolume);
         }
-        break
+        break;
       case 78: // n
       case 80: // p
       default:
     }
-  }
+  };
 
   render() {
-    const { volume, playingStatus, stream, mute } = this.state
+    const { volume, playingStatus, stream, mute } = this.state;
     return (
       <div className="Controls is-fadeIn">
         <PlayPause
           className="controls-play"
-          isPlaying={playingStatus === Sound.status.PLAYING}
+          isPlaying={playingStatus}
           onClick={this.handlePlayPause}
         />
         <Volume
           className="controls-sound"
           volume={mute ? 0 : volume}
-          onChange={event => {
+          onChange={(event) => {
             this.setState({
-              volume: event.target.value,
+              volume: event.target.value / 100,
               mute: false,
-            })
+            });
           }}
           mute={() => {
             this.setState({
               mute: !this.state.mute,
-            })
+            });
           }}
         />
-        <Sound
+        <ReactPlayer
           url={stream}
-          autoPlay
-          playStatus={playingStatus}
+          playing={playingStatus}
           volume={mute ? 0 : volume}
-          onLoad={() =>
-            this.setState({
-              playingStatus: Sound.status.STOPPED,
-            })
-          }
+          style={{display: 'none'}}
         />
       </div>
-    )
+    );
   }
 }
 
-const mapStateToProps = ({ player }) => ({ player })
+const mapStateToProps = ({ player }) => ({ player });
 
 const mapDispatchToProps = {
   togglePlaying,
   updateVolume,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Audio)
+export default connect(mapStateToProps, mapDispatchToProps)(Audio);

@@ -2,8 +2,8 @@ const DEFAULT_STATE = {
   index: 0,
   playing: true,
   track: null,
-  volume: 100,
-  prevVolume: 100,
+  volume: 1,
+  prevVolume: 1,
 }
 
 const playerReducer = (state = DEFAULT_STATE, action) => {

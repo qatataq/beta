@@ -5,10 +5,10 @@ import TracksList from './TracksList/TracksList'
 
 import '../styles/Content.css'
 
-const Content = () => (
+const Content = (props) => (
   <div className="content">
-    <TracksList {...this.props} />
-    <Audio {...this.props} />
+    <TracksList {...props} />
+    <Audio {...props} />
   </div>
 )
 
