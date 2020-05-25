@@ -1,96 +1,94 @@
+.Tracklist-container {
+  width: 100%;
+  flex-grow: 2;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  align-items: center;
+  z-index: 2;
+}
+
 .TrackList {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    display: flex;
-    transform: translate(-8rem, 0);
-    width: 200%;
-    height: 16rem;
+  flex-direction: row-reverse;
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50%;
+  margin-left: 100px;
+  height: 8rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.Tracklist-infos {
+  box-sizing: border-box;
+  padding: 0 100px;
 }
 
 .TrackList-item {
-    width: 8rem;
-    height: 8rem;
-    margin-left: 1rem;
-    margin-right: 1rem;
-    border-radius: 50%;
-    opacity: .8;
-    transform-origin: top left;
-    will-change: transform;
-    transform-origin: center;
-    animation: will-block .3s ease-in-out forwards;
-
+  height: 8rem;
+  width: 8rem;
+  background-color: #efefef;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 50%;
+  opacity: 0.7;
+  transform-origin: top left;
+  transform-origin: center;
+  transition: all 0.2s ease-in-out;
+  flex-grow: 1;
+  flex-shrink: 0;
 }
 
-.TrackList-item.first {
-    width: 11rem;
-    height: 11rem;
-    animation: will-appear .3s ease-in-out forwards;
-    margin-left: 2.5rem;
+.TrackList-item.last {
+  transform: scale(1.3);
+  opacity: 1;
+  margin: 0 40px;
+  animation: zoomIn 0.5s ease-in-out;
 }
 
-.TrackList-item.first::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 9rem;
-    height: 9rem;
-    border-radius: 50%;
-    z-index: -1;
-    background: #625fe2;
-    box-shadow: 0 5px 26px 10px rgba(0, 0, 0, .1), 0 6px 46px 10px rgba(98, 94, 226, .1);
-    transform: translate(-50%, -50%);
+.TrackList-item:hover:not(.last) {
+  transform: scale(1.3);
+  opacity: 1;
+}
+
+.TrackList-item:not(.last) {
+  flex-grow: 1;
 }
 
 .TrackList-item img {
-    width: 8rem;
-    border-radius: 50%;
+  width: 8rem;
+  border-radius: 50%;
 }
 
-.TrackList-item.first img {
-    width: 11rem;
-    border-radius: 50%;
+.TrackList-item.last img {
+  width: 11rem;
+  border-radius: 50%;
 }
 
 @media screen and (max-width: 1024px) {
-    .TrackList {
-        top: 35%;
-        transform: translate(-5.625rem, 0);
-        height: 12rem;
-    }
-    .TrackList-item {
-      margin-top: 0;
-    }
-    .TrackList-item.first {
-      margin-left: 0;
-    }
+  .Tracklist-container {
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: normal;
+  }
+  .Tracklist-infos {
+    margin: 0 auto;
+    padding: 0 0 60px 0;
+    width: 70%;
+    text-align: center;
+  }
+  .TrackList {
+    width: 50%;
+  }
 }
 
-@media screen and (orientation: landscape) and (max-width: 736px) {
-    .TrackList {
-        top: 30%;
-    }
-}
-
-@keyframes will-appear {
+@keyframes zoomIn {
   from {
-    margin-top: 1.5rem;
-    opacity: .8;
+    transform: scale(0);
   }
-  to {
-    opacity: 1;
-    margin-top: 1.5rem;
-  }
-}
 
-@keyframes will-block {
-  from {
-    margin-top: 1.5rem;
-    opacity: 1;
-  }
-  to {
-    margin-top: 3rem;
-    opacity: .8;
+  100% {
+    transform: scale(1.3);
   }
 }

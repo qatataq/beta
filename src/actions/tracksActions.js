@@ -1,12 +1,13 @@
-import _ from 'lodash'
 import 'whatwg-fetch'
-
-const SC_CLIENT_ID = 'b8198f1a65c0235a26607a834bcc3062'
-const SC_PLAYLIST_ID = '219590548'
-const SC_PLAYLIST_SECRET_TOKEN = 's-suaqL'
+import hash from 'quick-hash'
 
 const requestTracks = payload => ({
   type: 'REQUEST_TRACKS',
+  payload,
+})
+
+const requestHistory = payload => ({
+  type: 'REQUEST_HISTORY',
   payload,
 })
 
@@ -15,24 +16,52 @@ const receiveErrorTracks = payload => ({
   payload,
 })
 
-const receiveTracks = payload => ({
-  type: 'RECEIVE_TRACKS',
+const receiveCurrentTrack = payload => ({
+  type: 'RECEIVE_CURRENT_TRACK',
   payload,
 })
 
-export const fetchTracks = () =>
-  dispatch => {
-    dispatch(requestTracks('requesting'))
-    return fetch(`https://api.soundcloud.com/playlists/${SC_PLAYLIST_ID}.json?client_id=${SC_CLIENT_ID}&secret_token=${SC_PLAYLIST_SECRET_TOKEN}`)
-      .then(response => response.json())
-      .then(({ tracks }) => {
-        const newTracks = tracks.map(track =>
-          track.artwork_url ?
-            _.extend({}, track, { stream_url: `${track.stream_url.split('?secret_token')[0]}?client_id=${SC_CLIENT_ID}` })
-          :
-           null
-        )
-        dispatch(receiveTracks(_.chain(newTracks).compact().shuffle().value()))
-      })
-      .catch(error => dispatch(receiveErrorTracks(error)))
-  }
+const receiveHistory = payload => ({
+  type: 'RECEIVE_HISTORY',
+  payload,
+})
+
+const addIdToTracks = tracks => {
+  return tracks.map(track => ({
+    id: hash(track.started_at),
+    ...track,
+  }))
+}
+
+export const fetchCurrentTrack = () => dispatch => {
+  dispatch(requestTracks('requestingCurrentTrack'))
+  return fetch(
+    `https://www.radioking.com/widgets/currenttrack.php?radio=117904&format=json`
+  )
+    .then(response => response.json())
+    .then(newTrack => {
+      dispatch(receiveCurrentTrack(...addIdToTracks([newTrack])))
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch(receiveErrorTracks(error))
+    })
+}
+
+export const fetchHistory = () => dispatch => {
+  dispatch(requestHistory('requestingHistory'))
+  return fetch(
+    `https://www.radioking.com/widgets/api/v1/radio/117904/track/history?limit=20`
+  )
+    .then(response => response.json())
+    .then(history => {
+      history = addIdToTracks(history)
+      dispatch(
+        receiveHistory(history.filter(track => track.album !== 'qatataq'))
+      )
+    })
+    .catch(error => {
+      console.log(error)
+      dispatch(receiveErrorTracks(error))
+    })
+}

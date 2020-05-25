@@ -1,54 +1,96 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import _ from 'lodash'
 import classnames from 'classnames'
-import ImageLoader from 'react-imageloader';
-import FlipMove from 'react-flip-move';
+import Info from './../Info'
+import { fetchCurrentTrack } from '../../actions/tracksActions'
+
+import noCover from '../../images/notrack.jpg'
 
 import '../../styles/TrackList.css'
 
+const INTERVAL = 10000
+
 class TracksList extends Component {
+  interval1 = null
+
   state = {
-    loadingIndex: 0,
+    trackFocused: null,
+    currentTrack: 0,
+    tracks: [],
   }
 
-  getTracksList = () => {
-    const { player, tracks } = this.props
-    const { loadingIndex } = this.state
-    const sortedList = _.concat(tracks.list.slice(player.index, tracks.list.length), tracks.list.slice(0, player.index))
-    const offsetList = _.concat(sortedList.slice(sortedList.length - 1, sortedList), sortedList.slice(0, sortedList.length - 1))
-    return tracks.list.length ?
-      offsetList.map((d, i) => (
-        <ImageLoader
+  componentDidMount() {
+    this.interval1 = setInterval(this.fetchNextTrack, INTERVAL)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { tracks } = nextProps
+    const { currentTrack } = this.state
+    this.setState({
+      tracks: tracks.list.slice(currentTrack),
+    })
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval1)
+  }
+
+  fetchNextTrack = () => {
+    this.props.fetchCurrentTrack()
+  }
+
+  onMouseOver = track => {
+    this.setState({
+      trackFocused: track,
+    })
+  }
+
+  onMouseOut = () => {
+    this.setState({
+      trackFocused: null,
+    })
+  }
+
+  getTracklist = () => {
+    const { tracks } = this.state
+
+    if (tracks.length !== 0) {
+      return tracks.map((track, index) => (
+        <img
+          key={track.id}
+          alt={track.title}
           className={classnames('TrackList-item', {
-            'first': i === 0,
+            last: index === 0,
           })}
-          key={d.id}
-          onLoad={() => this.setState({ loadingIndex: loadingIndex + 1 })}
-          src={loadingIndex >= i ? d.artwork_url.replace('large', 't500x500') : ''}
-          style={{ backgroundImage: loadingIndex >= i ? `url(${d.artwork_url.replace('large', 't500x500')})` : ''}}
-          wrapper={React.DOM.div}
+          src={track.cover ? track.cover : noCover}
+          onMouseOut={() => this.onMouseOut(track)}
+          onMouseOver={() => this.onMouseOver(track)}
         />
       ))
-    :
-      []
+    }
+    return null
   }
+
   render() {
     return (
-        <FlipMove
-          className="TrackList is-fadeIn"
-          duration={300}
-          easing="ease-in-out"
-          maintainContainerHeight
-        >
-          {this.getTracksList()}
-        </FlipMove>
+      <div className="Tracklist-container">
+        <div className="TrackList">{this.getTracklist()}</div>
+        <div className="Tracklist-infos">
+          <Info {...this.props} trackFocused={this.state.trackFocused} />
+        </div>
+        <div />
+      </div>
     )
   }
 }
 
-const stateToProps = () => ({})
+const mapStateToProps = ({ tracks, isNextTrackReady }) => ({
+  tracks,
+  isNextTrackReady,
+})
 
-const dispatchToProps = () => ({})
+const mapDispatchToProps = {
+  fetchCurrentTrack,
+}
 
-export default connect(stateToProps, dispatchToProps)(TracksList);
+export default connect(mapStateToProps, mapDispatchToProps)(TracksList)

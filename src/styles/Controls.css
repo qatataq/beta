@@ -1,45 +1,21 @@
 .Controls {
-    position: absolute;
-    bottom: 3rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 50px;
 }
 
-.row > * {
-    float: left;
+.controls-play {
+  margin: 20px 0;
 }
 
-.Controls-sound {
-    position: relative;
-    left: 50%;
-    margin-top: 2rem;
-    transform: translate(-50%, 0);
+.controls-sound {
+  position: relative;
 }
 
-.Controls-space {
-    margin-right: 3rem;
-}
-
-@media screen and (max-width: 1024px) {
-    .Controls {
-        width: 100%;
-    }
-    .row {
-        display: flex;
-        justify-content: center;
-
-    }
-    .row > * {
-        float: none;
-    }
-
-    .Controls-sound {
-        display: none;
-    }
-}
-
-@media screen and (orientation: landscape) and (max-width: 736px) {
-    .Controls {
-        display: none;
-    }
+@media screen and (max-height: 680px) {
+  .controls-sound {
+    display: none;
+  }
 }

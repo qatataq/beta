@@ -1,32 +1,21 @@
 import React, { Component } from 'react'
+import { head } from 'lodash'
 
 import '../styles/Info.css'
 
 class Info extends Component {
-
-   /**
-    * Return the track link to Soundcloud
-    */
-   getTrackLink = () => {
-     const { player } = this.props
-     const link = player.track.permalink_url || '#'
-
-     return link.substr(0, link.indexOf('s-suaqL'))
-   }
-
   render() {
-    const { player } = this.props
+    const { tracks, trackFocused } = this.props
+    const currentTrack = trackFocused ? trackFocused : head(tracks.list)
+
     return (
       <div className="is-fadeIn">
-        {player.track &&
+        {currentTrack && (
           <div className="Info">
-            <div className="Info-title">
-              <a href={this.getTrackLink()} target="_blank">{player.track.title}</a>
-            </div>
-            <div className="Info-artist">{player.track.user.username}</div>
-            <div className="Info-label">{player.track.label_name}</div>
+            <div className="Info-title">{currentTrack.title}</div>
+            <div className="Info-artist">{currentTrack.artist}</div>
           </div>
-        }
+        )}
       </div>
     )
   }

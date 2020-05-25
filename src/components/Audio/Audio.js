@@ -1,117 +1,46 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import Velocity from 'velocity-animate'
-import _ from 'lodash'
-import {
-  loadTrack,
-  nextTrack,
-  previousTrack,
-  togglePlaying,
-  updateVolume,
-} from '../../actions/playerActions'
-import {
-  PlayPause,
-  Next,
-  Previous,
-  Sound,
-} from '../Icons'
-import '../../styles/Controls.css'
+import React, { Component } from "react";
+import ReactPlayer from 'react-player';
+import { connect } from "react-redux";
+import Velocity from "velocity-animate";
+import { extend } from "lodash";
+import { togglePlaying, updateVolume } from "../../actions/playerActions";
+import { PlayPause, Volume } from "../Icons";
+import "../../styles/Controls.css";
+
+const STREAM_URL = "https://listen.radioking.com/radio/117904/stream/157294";
 
 class Audio extends Component {
+  audio = null;
 
-  audio = null
-  isStartingMobile = navigator.userAgent
-    .toLowerCase()
-    .includes('mobi')
-
-  componentDidMount() {
-    const { togglePlaying } = this.props
-    // If on mobile device manually set the audio as paused
-
-    if (this.isStartingMobile) {
-      togglePlaying(true)
-    } else {
-      window.addEventListener('keydown', _.debounce(this.resolveKeydown, 300))
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const { loadTrack, player, tracks } = this.props
-
-    const isFirstTrack = nextProps.tracks.list.length && !nextProps.player.track && !player.track
-    const isNewTrack = nextProps.player.index !== player.index
-    if (isFirstTrack || isNewTrack) {
-      loadTrack(nextProps.player.index, tracks.list)
-    }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { player } = this.props
-    if (this.isStartingMobile) {
-      return
-    }
-    if (prevProps.player.index !== player.index && this.audio) {
-      this.audio.pause()
-      this.audio.load()
-      this.audio.play()
-    }
-    if (prevProps.player.playing !== player.playing && this.audio) {
-      player.playing ? this.audio.play() : this.audio.pause()
-    }
-    if (prevProps.player.volume !== player.volume && this.audio) {
-      this.audio.volume = player.volume / 100
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      playingStatus: false,
+      volume: 1,
+      stream: STREAM_URL,
+      mute: false,
+    };
   }
 
   handlePlayPause = (event) => {
-    const { player, togglePlaying } = this.props
-    const element = event.currentTarget
-    const animAttr = { scaleX: '0.3', scaleY: '0.3', opacity: '0' }
-    const animParams = { duration:200, easing: [.13,1.67,.72,2] }
+    const { player, togglePlaying } = this.props;
+
+    this.setState({
+      playingStatus: !this.state.playingStatus
+    });
+    const element = event.currentTarget;
+    const animAttr = { scaleX: "0.3", scaleY: "0.3", opacity: "0" };
+    const animParams = { duration: 200, easing: [0.13, 1.67, 0.72, 2] };
     const onComplete = {
       complete: () => {
-        togglePlaying(player.playing)
-        Velocity(element, 'reverse', animParams)
-          .then(() => {
-            Velocity(element, 'stop', true)
-          })
+        togglePlaying(player.playing);
+        Velocity(element, "reverse", animParams).then(() => {
+          Velocity(element, "stop", true);
+        });
       },
-    }
-    if (this.isStartingMobile) {
-      this.audio.play()
-      this.isStartingMobile = false
-    }
-    Velocity(element, animAttr, _.extend(animParams, onComplete))
-  }
-
-  handleNextTrack = (direction) => (event) => {
-    const {
-      nextTrack,
-      player,
-      previousTrack,
-      togglePlaying,
-      tracks,
-    } = this.props
-    const element = event.currentTarget
-    const animAttr = direction === 'next' ? { translateX: '8px' } : { translateX: '-8px' }
-    const animParams = { duration:200, easing: [.13,1.67,.72,2] }
-
-    Velocity(element, animAttr, animParams)
-    Velocity(element, 'reverse', animParams)
-        .then(() => {
-          Velocity(element, 'stop', true)
-          if (!player.playing) {
-            togglePlaying(player.playing)
-          }
-          if (direction === 'next') {
-            nextTrack(player.index, tracks.list)
-          } else {
-            previousTrack(player.index, tracks.list)
-          }
-        })
-  }
-
-
+    };
+    Velocity(element, animAttr, extend(animParams, onComplete));
+  };
 
   /**
    * Do actions when shortcuts are pressed :
@@ -120,82 +49,65 @@ class Audio extends Component {
    * - "n", "arrow key right" nextTrack
    */
   resolveKeydown = (event) => {
-    const { nextTrack, togglePlaying, player, previousTrack, tracks, updateVolume } = this.props
-    event.preventDefault()
+    const { togglePlaying, player, updateVolume } = this.props;
+    event.preventDefault();
     switch (event.keyCode) {
       case 32: // space
-        togglePlaying(player.playing)
-        break
+        togglePlaying(player.playing);
+        break;
       case 77: // m
         if (player.volume) {
-          updateVolume(0)
+          updateVolume(0);
         } else {
-          updateVolume(player.prevVolume)
+          updateVolume(player.prevVolume);
         }
-        break
+        break;
       case 78: // n
-      case 39: // right-arrow
-        nextTrack(player.index, tracks.list)
-        break
       case 80: // p
-      case 37: // left-arrow
-        previousTrack(player.index, tracks.list)
-        break
       default:
     }
-  }
+  };
 
   render() {
-    const { nextTrack, player, tracks, updateVolume } = this.props
+    const { volume, playingStatus, stream, mute } = this.state;
     return (
-      <div className="is-fadeIn">
-        <div className="Controls">
-          {player.track && (
-            <div>
-              <div className="row">
-                <Previous
-                  className="Controls-space"
-                  onClick={this.handleNextTrack('previous')}
-                />
-                <PlayPause
-                  className="Controls-space"
-                  isPlaying={player.playing}
-                  onClick={this.handlePlayPause}
-                />
-                <Next onClick={this.handleNextTrack('next')}/>
-              </div>
-              <div className="row">
-                <Sound
-                  className={'Controls-sound'}
-                  volume={player.volume}
-                  onChange={(event) => { updateVolume(event.target.value) }}
-                />
-              </div>
-            </div>
-          )}
-        </div>
-        {player.track && (
-          <audio
-            ref={audio => this.audio = audio}
-            autoPlay
-            onEnded={() => { nextTrack(player.index, tracks.list) }}
-          >
-            <source src={player.track.stream_url}/>
-          </audio>
-        )}
+      <div className="Controls is-fadeIn">
+        <PlayPause
+          className="controls-play"
+          isPlaying={playingStatus}
+          onClick={this.handlePlayPause}
+        />
+        <Volume
+          className="controls-sound"
+          volume={mute ? 0 : volume}
+          onChange={(event) => {
+            this.setState({
+              volume: event.target.value / 100,
+              mute: false,
+            });
+          }}
+          mute={() => {
+            this.setState({
+              mute: !this.state.mute,
+            });
+          }}
+        />
+        <ReactPlayer
+          url={stream}
+          playing={playingStatus}
+          volume={mute ? 0 : volume}
+          style={{display: 'none'}}
+        />
       </div>
-    )
+    );
   }
 }
 
-const stateToProps = () => ({})
+const mapStateToProps = ({ player }) => ({ player });
 
-const dispatchToProps = (dispatch) => ({
-  loadTrack: (index, list) => { dispatch(loadTrack(index, list)) },
-  nextTrack: (index, list) => { dispatch(nextTrack(index, list)) },
-  previousTrack: (index, list) => { dispatch(previousTrack(index, list)) },
-  togglePlaying: (playing) => { dispatch(togglePlaying(playing)) },
-  updateVolume: (newVolume) => { dispatch(updateVolume(newVolume)) },
-})
+const mapDispatchToProps = {
+  togglePlaying,
+  updateVolume,
+};
 
-export default connect(stateToProps, dispatchToProps)(Audio);
+export default connect(mapStateToProps, mapDispatchToProps)(Audio);
